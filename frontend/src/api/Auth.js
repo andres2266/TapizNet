@@ -1,4 +1,4 @@
-import { api } from "./axiosInstance"
+import { api } from "./AxiosInstance";
 
 export const Auth = {
     register: async (data) => {
