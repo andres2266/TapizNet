@@ -1,6 +1,5 @@
 FROM php:8.3-apache
 
-# Paquetes del sistema y extensiones PHP necesarias
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -13,23 +12,21 @@ RUN apt-get update && apt-get install -y \
     && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
 
-# Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copiamos primero composer para aprovechar la caché
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Copiamos el resto del proyecto
+# Copiamos todo el proyecto primero
 COPY . .
 
-# Apache debe servir desde /public
+# Instalamos dependencias después de copiar todo
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Apache debe apuntar a /public
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/!/var/www/html/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Permisos de Laravel
+# Permisos Laravel
 RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
