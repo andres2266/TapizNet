@@ -13,6 +13,7 @@ export default function LandingPage() {
           </Link>
         <h1>Tapiz.Net</h1>
         
+        
     </div>
   )
 }
