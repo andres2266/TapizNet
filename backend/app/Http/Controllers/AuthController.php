@@ -30,23 +30,23 @@ class AuthController extends Controller
             'activo'    => true,
         ]);
 
-        $propietario = Empleado::create([
+        $administrador = Empleado::create([
             'empresa_id'     => $empresa->id,
             'usuario'        => $validated['usuario'],
             'password'       => Hash::make($validated['password']),
             'nombre'         => $validated['nombre'],
             'apellido'       => $validated['apellido'] ?? null,
-            'rol'            => 'propietario',
+            'rol'            => 'administrador',
             'tipo_contrato'  => 'horas',
             'saldo_pendiente'=> 0,
             'activo'         => true,
         ]);
 
-        $token = $propietario->createToken('auth_token')->plainTextToken;
+        $token = $administrador->createToken('auth_token')->plainTextToken;
 
         return [
             'empresa'     => $empresa,
-            'propietario' => $propietario,
+            'administrador' => $administrador,
             'token'       => $token,
         ];
     });
@@ -54,7 +54,7 @@ class AuthController extends Controller
     return response()->json([
         'message'     => 'Registro completado correctamente.',
         'token'       => $resultado['token'],
-        'propietario' => $resultado['propietario'],
+        'administrador' => $resultado['administrador'],
         'empresa'     => $resultado['empresa'],
         ], 201);
     
