@@ -4,6 +4,7 @@ import '../styles/app.css'
 import '../styles/forms.css'
 import "../styles/table.css"
 import '../styles/detaill.css'
+import '../styles/links.css'
 export default function AppLayout() {
   return (
 <div className="app-layout">

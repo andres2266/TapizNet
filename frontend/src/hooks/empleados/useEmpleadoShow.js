@@ -26,7 +26,7 @@ export const useEmpleadoShow = (id) => {
         };
 
         obtenerEmpleado();
-    }, [id]); // 🔥 importante
-
+    }, [id]); 
+    
     return { empleado, loading, error };
 };

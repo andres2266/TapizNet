@@ -1,14 +1,18 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { authStore } from '../../stores/auth';
+import { Navigate, Outlet } from "react-router-dom";
+import { authStore } from "../../stores/auth";
 
 export function PublicGuard() {
-  const empleado = authStore((state) => state.empleado);
+    const empleado = authStore((state) => state.empleado);
 
-  // Si NO está autenticado, deja pasar (muestra login/register)
-  if (!empleado) return <Outlet />;
+    if (!empleado) return <Outlet />;
 
-  // Si ya está autenticado, redirige según su rol
-  return empleado.rol === "operario"
-    ? <Navigate to="/mis-tareas" replace />
-    : <Navigate to="/homeAdmin" replace />;
+    if (empleado.rol === "operario") {
+        return <Navigate to="/homeOperario" replace />;
+    }
+
+    if (empleado.rol === "gestor") {
+        return <Navigate to="/homeGestor" replace />;
+    }
+
+    return <Navigate to="/homeAdmin" replace />;
 }

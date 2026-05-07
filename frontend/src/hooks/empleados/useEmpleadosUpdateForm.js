@@ -1,23 +1,26 @@
 import { useForm } from "react-hook-form";
 import { Empleados } from "../../api/Empleados";
-
+import { useState } from "react";
 
 export function useEmpleadoUpdateForm() {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-        reset,
-        setError,
-    } = useForm();
+    const { register,handleSubmit,formState: { errors, isSubmitting },reset,setError,} = useForm();
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [generalError, setGeneralError] = useState(null);
 
     const actualizarEmpleado = async (id, data) => {
         try {
+            
+            setSuccessMessage(null);
+            setGeneralError(null);
+
             const cleanData = Object.fromEntries(
                 Object.entries(data).filter(([_, value]) => value !== "")
             );
 
             const response = await Empleados.update(id, cleanData);
+
+        
+            setSuccessMessage(response.message || "Empleado actualizado correctamente.");
 
             reset();
 
@@ -32,6 +35,12 @@ export function useEmpleadoUpdateForm() {
                         message: messages[0],
                     });
                 });
+            } else {
+                // error general (no validación)
+                setGeneralError(
+                    error.response?.data?.message ||
+                    "Ocurrió un error al actualizar el empleado."
+                );
             }
 
             throw error;
@@ -44,5 +53,7 @@ export function useEmpleadoUpdateForm() {
         errors,
         isSubmitting,
         actualizarEmpleado,
+        successMessage,
+        generalError,
     };
 }

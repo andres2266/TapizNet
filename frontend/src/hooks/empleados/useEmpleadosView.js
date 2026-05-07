@@ -3,15 +3,7 @@ import { useEffect, useReducer  } from "react";
 import { Empleados } from '../../api/Empleados';
 
 
-const initialState = {
-    empleados: [],
-    loading: true,
-    error: null,
-    search: "",
-    rol: "",
-    estado: "",
-    page: 1,
-};
+const initialState = {empleados: [],loading: true,error: null,search: "",rol: "",estado: "",page: 1,};
 
 function reducer(state, action) {
     switch (action.type) {
@@ -86,7 +78,7 @@ function reducer(state, action) {
 
         return () => clearTimeout(timeout);
     }, [state.search, state.rol, state.estado, state.page]);
-
+    
     return {
         ...state,
         dispatch,

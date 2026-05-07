@@ -10,7 +10,7 @@ export function useLoginForm(){
     const loginTrabajador = async(data) => {
         let response = await Auth.login(data);
         login(response.empleado,response.token);
-        useNavigate('/');
+
     }
     return{
         register,

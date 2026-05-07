@@ -243,4 +243,25 @@ button:disabled {
     .detail-grid {
         grid-template-columns: 1fr;
     }
+    .tasks-table {
+    table-layout: fixed;
+}
+
+.tasks-table th,
+.tasks-table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tasks-table th {
+    white-space: nowrap;
+}
+
+.tasks-table .table-actions {
+    justify-content: center;
+}
+
+.tasks-table td {
+    word-wrap: break-word;
+}
 }

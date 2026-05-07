@@ -11,6 +11,19 @@ export const Empleados = {
         return response.data;
     },
 
+    empleadosDisponiblesParaTarea: async (puestoTrabajoId) => {
+        const response = await api.get("/empleados", {
+            params: {
+                puesto_trabajo_id: puestoTrabajoId,
+                rol: "operario",
+                activo: 1,
+                disponibles: 1,
+                
+            },
+        })
+        return response.data
+    },
+
     update: async (id, data) => {
         const response = await api.put(`/empleados/${id}`, data);
         return response.data;
@@ -18,6 +31,17 @@ export const Empleados = {
 
     show: async (id)=>{
          const response = await api.get(`/empleados/${id}`);
+         
          return response.data
-    }
+    },
+
+
+    asignarPuestoTrabajo: async (empleadoId, data) => {
+        const response = await api.patch(
+            `/empleados/${empleadoId}/asignar-puesto`,
+            data
+        );
+
+        return response.data;
+    },
 }

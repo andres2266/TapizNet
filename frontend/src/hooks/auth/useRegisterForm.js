@@ -9,7 +9,7 @@ export function useRegisterForm(){
     const registerPropietaio = async (data) =>{
        let response = await Auth.register(data);
        login(response.propietario,response.token)
-       useNavigate('/')
+       
     }
 
     return{

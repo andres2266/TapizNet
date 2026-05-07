@@ -92,13 +92,17 @@ class CreateEmpleadoRequest extends FormRequest
 
             'rol' => [
                 'required',
-                'in:gestor,administrador',
+                'in:gestor,administrador,operario',
             ],
 
             'activo' => [
                 'nullable',
                 'boolean',
             ],
+
+            'puesto_trabajo_id'=>[
+                'integer'
+            ]
         ];
     }
 
@@ -106,6 +110,7 @@ class CreateEmpleadoRequest extends FormRequest
     {
         return [
             'usuario.required' => 'El usuario es obligatorio.',
+            'puesto_trabajo_id.integer' =>'El puesto de trabajo debe ser válido.',
             'usuario.min' => 'El usuario debe tener al menos 3 caracteres.',
             'usuario.max' => 'El usuario no puede superar los 30 caracteres.',
             'usuario.regex' => 'El usuario solo puede contener letras, números, puntos, guiones y guiones bajos.',
