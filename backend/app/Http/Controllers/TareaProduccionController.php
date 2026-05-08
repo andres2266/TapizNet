@@ -43,8 +43,8 @@ class TareaProduccionController extends Controller
                         });
                 });
             })
-            ->when($request->estado, function ($query) use ($request) {
-                $query->where('estado', $request->estado);
+            ->when($request->estado_diferente, function ($query) use ($request){
+            $query->where('estado', '!=', $request->estado_diferente);
             })
             ->when($request->puesto_trabajo_id, function ($query) use ($request) {
                 $query->where('puesto_trabajo_id', $request->puesto_trabajo_id);
@@ -345,6 +345,55 @@ public function terminar(Request $request, TareaProduccion $tarea)
     return response()->json([
         'message' => 'Tarea terminada correctamente.',
         'data' => $tareaTerminada,
+    ]);
+}
+
+
+private function cargarDetalleTarea(TareaProduccion $tarea)
+{
+    return $tarea->load([
+        'empleado:id,nombre,apellido,usuario',
+        'puestoTrabajo:id,nombre',
+        'unidadFabricacion:id,numero_unidad,estado',
+        'ordenProduccion:id,codigo,prioridad,estado',
+    ]);
+}
+
+public function miTareaActual(Request $request)
+{
+    $usuario = $request->user();
+
+    $tarea = TareaProduccion::where('empresa_id', $usuario->empresa_id)
+        ->where('trabajador_id', $usuario->id)
+        ->whereIn('estado', ['asignada', 'en_progreso'])
+        ->first();
+
+    if (!$tarea) {
+        return response()->json([
+            'message' => 'No hay tarea asignada.',
+            'data' => null,
+        ]);
+    }
+
+    return response()->json([
+        'message' => 'Tarea actual encontrada.',
+        'data' => $this->cargarDetalleTarea($tarea),
+    ]);
+}
+
+public function show(Request $request, TareaProduccion $tarea)
+{
+    $usuario = $request->user();
+
+    if ($tarea->empresa_id !== $usuario->empresa_id) {
+        return response()->json([
+            'message' => 'Tarea no encontrada.',
+        ], 404);
+    }
+
+    return response()->json([
+        'message' => 'Detalle de la tarea.',
+        'data' => $this->cargarDetalleTarea($tarea),
     ]);
 }
 

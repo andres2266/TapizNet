@@ -3,6 +3,10 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\JornadaLaboralController;
+use App\Http\Controllers\JornadaLaboralController as ControllersJornadaLaboralController;
+use App\Http\Controllers\JornadaLaboralController as HttpControllersJornadaLaboralController;
+use App\Http\Controllers\JornadaLaboralController as AppHttpControllersJornadaLaboralController;
 use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\OrdenProduccionController;
 use App\Http\Controllers\ProcesoFabricacionController;
@@ -53,5 +57,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/tareas-produccion', [TareaProduccionController::class, 'index']);
         Route::get('/tareas-produccion/mis-disponibles', [TareaProduccionController::class, 'misDisponibles']);
         Route::patch('/operario/tareas/{tarea}/terminar',[TareaProduccionController::class, 'terminar']);
+        Route::get('/operario/tareas/actual', [TareaProduccionController::class, 'miTareaActual']);
+        Route::get('/tareas-produccion/{tarea}', [TareaProduccionController::class, 'show']);
+
+
+        //rutas de jornada laboral 
+
+         Route::get('/jornadas/actual', [JornadaLaboralController::class, 'actual']);
+         Route::post('/jornadas/iniciar', [JornadaLaboralController::class, 'iniciar']);
+         Route::post('/jornadas/finalizar', [JornadaLaboralController::class, 'finalizar']);
+
 
 });

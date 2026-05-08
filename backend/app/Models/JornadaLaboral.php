@@ -20,6 +20,12 @@ class JornadaLaboral extends Model
         'observaciones',
     ];
 
+     protected $casts = [
+        'fecha' => 'date',
+        'hora_inicio' => 'datetime',
+        'hora_fin' => 'datetime',
+    ];
+
     public function empresa()
     {
         return $this->belongsTo(Empresa::class, 'empresa_id');
