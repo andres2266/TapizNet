@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useAsignarPuestoTrabajo } from "../../../hooks/empleados/useAsignarPuestoTrabajo";
+import { useAsignarPuestoTrabajo } from "../../../hooks/puestoTrabajo/useAsignarPuestoTrabajo";
 
 export function AsignarPuestoTrabajoPage() {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ export function AsignarPuestoTrabajoPage() {
                 <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => navigate("/empleados")}
+                    onClick={() => navigate("/PuestosTrabajoHome")}
                 >
                     Volver
                 </button>
@@ -120,32 +120,35 @@ export function AsignarPuestoTrabajoPage() {
                                         </td>
 
                                         <td>
-                                            <select
-                                                value={
-                                                    selectedPuestos[empleado.id] || ""
-                                                }
-                                                onChange={(e) =>
-                                                    dispatch({
-                                                        type: "SET_PUESTO_EMPLEADO",
-                                                        empleadoId: empleado.id,
-                                                        puestoTrabajoId:
-                                                            e.target.value,
-                                                    })
-                                                }
-                                            >
-                                                <option value="">
-                                                    Selecciona un puesto
-                                                </option>
-
-                                                {puestosTrabajo.map((puesto) => (
-                                                    <option
-                                                        key={puesto.id}
-                                                        value={puesto.id}
-                                                    >
-                                                        {puesto.nombre}
+                                            <div className="form-group">
+                                                <select
+                                                    value={
+                                                        selectedPuestos[empleado.id] || ""
+                                                    }
+                                                    onChange={(e) =>
+                                                        dispatch({
+                                                            type: "SET_PUESTO_EMPLEADO",
+                                                            empleadoId: empleado.id,
+                                                            puestoTrabajoId:
+                                                                e.target.value,
+                                                        })
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        Selecciona un puesto
                                                     </option>
-                                                ))}
-                                            </select>
+
+                                                    {puestosTrabajo.map((puesto) => (
+                                                        <option
+                                                            key={puesto.id}
+                                                            value={puesto.id}
+                                                        >
+                                                            {puesto.nombre}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+
                                         </td>
 
                                         <td>
@@ -156,7 +159,7 @@ export function AsignarPuestoTrabajoPage() {
                                                     disabled={
                                                         assigning ||
                                                         !selectedPuestos[
-                                                            empleado.id
+                                                        empleado.id
                                                         ]
                                                     }
                                                     onClick={() =>
@@ -210,5 +213,5 @@ export function AsignarPuestoTrabajoPage() {
                     </div>
                 </section>
             )}</main>
-        );
+    );
 }

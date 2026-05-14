@@ -9,9 +9,14 @@ use App\Http\Controllers\JornadaLaboralController as HttpControllersJornadaLabor
 use App\Http\Controllers\JornadaLaboralController as AppHttpControllersJornadaLaboralController;
 use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\OrdenProduccionController;
+use App\Http\Controllers\PagoEmpleadoController;
+use App\Http\Controllers\PagoEstadisticaController;
+use App\Http\Controllers\PagosEstadisticaController;
 use App\Http\Controllers\ProcesoFabricacionController;
+use App\Http\Controllers\PuestosTrabajoEstadisticasController;
 use App\Http\Controllers\PuestoTrabajoController;
 use App\Http\Controllers\TareaProduccionController;
+use App\Http\Controllers\TareasEstadisticasController;
 
 // Ruta de prueba
 Route::get('/test', function () {
@@ -32,19 +37,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/empleados/{empleado}', [EmpleadoController::class,'update']);
     Route::get('/empleados/{empleado}', [EmpleadoController::class, 'show']);
     Route::patch('/empleados/{empleado}/asignar-puesto',[EmpleadoController::class, 'asignarPuestoTrabajo']);
+    Route::patch('/empleados/{empleado}/estado',[EmpleadoController::class, 'updateEstado']);
 
     // rutas de puesto de trabajo
     Route::post('/puestos-trabajo', [PuestoTrabajoController::class, 'store']);
-    Route::get('/puestos-trabajo', [PuestoTrabajoController::class, 'view']);
-
+    Route::get('/puestos-trabajo/view', [PuestoTrabajoController::class, 'view']);
+    Route::patch('/puestos-trabajo/{puesto}/estado', [PuestoTrabajoController::class, 'cambiarEstado']);
+    Route::get('/puestos-trabajo/{puestoTrabajo}/show', [PuestoTrabajoController::class, 'show']);
+    Route::patch('/puestos-trabajo/{puestoTrabajo}/update', [PuestoTrabajoController::class, 'update']);
     //rutas de modelos
-    
+     
      Route::post('/modelos', [ModeloController::class, 'store']);
      Route::get('/modelos', [ModeloController::class, 'index']);
      
      //rutas  procesos de fabricacion
 
       Route::post('/modelos/{modelo}/procesos-fabricacion', [ProcesoFabricacionController::class, 'store']);
+      Route::patch('/modelos/{modelo}/proceso-fabricacion',[ProcesoFabricacionController::class, 'updateByModelo']);
+       Route::get('/modelos/{modelo}/proceso-fabricacion',[ProcesoFabricacionController::class, 'showByModelo']);
 
       // rutas de orden de produccion
 
@@ -67,5 +77,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
          Route::post('/jornadas/iniciar', [JornadaLaboralController::class, 'iniciar']);
          Route::post('/jornadas/finalizar', [JornadaLaboralController::class, 'finalizar']);
 
+         //rutas de pagoEmpleado
 
+         Route::post('/pagos-empleados/{empleadoId}/registrar',[PagoEmpleadoController::class, 'registrar']);
+         Route::get('/pagos-empleados/pendientes', [PagoEmpleadoController::class, 'pendientes']);
+
+
+        // rutas de estadisticas
+
+       Route::get('/estadisticas/pagos', [PagosEstadisticaController::class, 'index']);
+       Route::get('/tareas/estadisticas', [TareasEstadisticasController::class, 'index']);
+       Route::get('/puestos-trabajo/estadisticas', [PuestosTrabajoEstadisticasController::class, 'index']);
 });

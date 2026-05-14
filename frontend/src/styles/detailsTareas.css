@@ -1,0 +1,103 @@
+.mi-tarea-card {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.mi-tarea-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.mi-tarea-title h2 {
+    margin: 10px 0;
+    font-size: 2rem;
+}
+
+.mi-tarea-title p {
+    color: #666;
+    margin: 0;
+}
+
+.estado-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.estado-asignada {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.estado-en_progreso {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.estado-completada {
+    background: #d4edda;
+    color: #155724;
+}
+
+.mi-tarea-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.mi-tarea-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.mi-tarea-item label {
+    display: block;
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 8px;
+}
+
+.mi-tarea-item strong {
+    font-size: 1rem;
+    color: #222;
+}
+
+.mi-tarea-description {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.mi-tarea-description h3 {
+    margin-top: 0;
+}
+
+.mi-tarea-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.mi-tarea-money {
+    border-left: 5px solid #28a745;
+}
+
+.mi-tarea-priority-alta {
+    border-left: 5px solid #dc3545;
+}
+
+.mi-tarea-priority-normal {
+    border-left: 5px solid #007bff;
+}
+
+.mi-tarea-priority-baja {
+    border-left: 5px solid #6c757d;
+}

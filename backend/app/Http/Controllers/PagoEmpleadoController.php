@@ -10,16 +10,14 @@ use Illuminate\Support\Facades\DB;
 
 class PagoEmpleadoController extends Controller
 {
-    public function registrar(RegistrarPagoEmpleadoRequest $request,Empleado $empleadoId) {
+    public function registrar(RegistrarPagoEmpleadoRequest $request, Empleado $empleadoId)
+    {
+      
         $usuario = $request->user();
 
         return DB::transaction(function () use ($request, $usuario, $empleadoId) {
 
-            $empleado = Empleado::where('empresa_id', $usuario->empresa_id)
-                ->where('id', $empleadoId)
-                ->where('saldo_pendiente', '>', 0)
-                ->lockForUpdate()
-                ->first();
+            $empleado = $empleadoId;
 
             if (!$empleado) {
                 return response()->json([
@@ -64,5 +62,32 @@ class PagoEmpleadoController extends Controller
                 ],
             ], 201);
         });
+    }
+
+
+    public function pendientes(Request $request)
+    {
+        $usuario = $request->user();
+
+        $empleados = Empleado::where('empresa_id', $usuario->empresa_id)
+            ->where('saldo_pendiente', '>', 0)
+            ->with('puestoTrabajo:id,nombre')
+            ->select(
+                'id',
+                'empresa_id',
+                'nombre',
+                'puesto_trabajo_id',
+                'apellido',
+                'tipo_contrato',
+                'usuario',
+                'saldo_pendiente'
+            )
+            ->orderByDesc('saldo_pendiente')
+            ->get();
+
+        return response()->json([
+            'message' => 'Empleados con saldo pendiente obtenidos correctamente.',
+            'data' => $empleados,
+        ]);
     }
 }

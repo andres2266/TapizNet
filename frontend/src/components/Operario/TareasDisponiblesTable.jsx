@@ -55,8 +55,8 @@ export function TareasDisponiblesTable({
                             </td>
 
                             <td>
-                                {tarea.precio_destajo
-                                    ? `${tarea.precio_destajo} €`
+                                {tarea.ganancia_destajo
+                                    ? `${tarea.ganancia_destajo} €`
                                     : "0 €"}
                             </td>
 

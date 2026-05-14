@@ -8,7 +8,7 @@ class PuestoTrabajo extends Model
 {
     protected $table = 'puestos_de_trabajo';
     
-    protected $fillable = ['empresa_id','nombre'];
+    protected $fillable = ['empresa_id','nombre','descripcion','activo'];
 
     public function empresa(){
 

@@ -1,117 +1,785 @@
+.employee-form {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafd 100%);
+    border-radius: 28px;
+    padding: 2rem;
+    box-shadow: 0 8px 28px rgba(58, 110, 165, 0.08);
+    border: 1px solid #e2ecf5;
+    transition: all 0.3s ease;
+}
+
+.employee-form:hover {
+    box-shadow: 0 12px 32px rgba(58, 110, 165, 0.12);
+}
+
+/* Grid del formulario */
 .form-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Cada grupo de campo */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #2c5a7a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Icono SVG en labels - usando pseudo-elemento con SVG inline */
+.form-group label::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Iconos específicos para cada tipo de campo (se añaden con clase o data-atributo) */
+
+/* Inputs y selects */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    border: 1.5px solid #e2ecf5;
+    border-radius: 14px;
+    padding: 0.875rem 1rem;
+    font-size: 0.9rem;
+    outline: none;
+    background: white;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+    border-color: #c5d9eb;
+    background: #fefefe;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #5b8cbe;
+    box-shadow: 0 0 0 4px rgba(91, 140, 190, 0.12);
+    background: white;
+}
+
+/* Inputs con error */
+.input-error {
+    border-color: #dc2626 !important;
+    background: #fef2f2 !important;
+}
+
+.input-error:focus {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1) !important;
+}
+
+/* Mensajes de error con SVG */
+.form-error {
+    margin: 0;
+    color: #dc2626;
+    font-size: 0.75rem;
+    font-weight: 500;
+    min-height: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.form-error::before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23dc2626' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/* Alertas con SVG */
+.form-alert {
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-alert-error {
+    color: #991b1b;
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border-left: 4px solid #dc2626;
+}
+
+.form-alert-error::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23dc2626' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.form-alert-success {
+    color: #166534;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-left: 4px solid #22c55e;
+}
+
+.form-alert-success::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2322c55e' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/* Checkbox estilo tarjeta */
+.checkbox-card {
+    background: #f8fafd;
+    border: 1.5px solid #e2ecf5;
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.checkbox-card:hover {
+    background: #ffffff;
+    border-color: #5b8cbe;
+    transform: translateY(-2px);
+}
+
+.checkbox-card input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #5b8cbe;
+}
+
+.checkbox-card span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.checkbox-card strong {
+    font-size: 0.9rem;
+    color: #1e3a5f;
+}
+
+.checkbox-card small {
+    font-size: 0.75rem;
+    color: #5a6e85;
+}
+
+/* Botones de acción */
+.page-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2ecf5;
+}
+
+/* Botones mejorados con SVG */
+.btn {
+    border: none;
+    border-radius: 14px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
+    color: white;
+    box-shadow: 0 2px 8px rgba(58, 110, 165, 0.25);
+}
+
+
+
+.btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #4a7aac, #2e5a8a);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(58, 110, 165, 0.35);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background: white;
+    color: #3a6ea5;
+    border: 1.5px solid #dce5f0;
+}
+
+
+
+.btn-secondary:hover:not(:disabled) {
+    background: #f8fafd;
+    border-color: #5b8cbe;
+    transform: translateY(-2px);
+}
+
+.btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Header de página */
+.page-header {
+    margin-bottom: 1.75rem;
+}
+
+.page-header h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #1e3a5f, #2c5a7a);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.page-header p {
+    color: #5a6e85;
+    font-size: 0.9rem;
+}
+
+/* Campos de ancho completo */
+.form-full {
+    grid-column: 1 / -1;
+}
+
+/* Textarea específico */
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Select personalizado */
+
+
+/* Input number - quitar flechas */
+.form-group input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.form-group input[type="number"]::-webkit-inner-spin-button,
+.form-group input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Campo de solo lectura */
+.form-group input:read-only {
+    background: #f1f5f9;
+    cursor: default;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .employee-form {
+        padding: 1.25rem;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .form-full {
+        grid-column: auto;
+    }
+    
+    .page-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .checkbox-card {
+        padding: 0.875rem;
+    }
+}
+
+/* Animación de carga para botones */
+.btn-primary:disabled::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    margin-left: 8px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estilo para campos con éxito */
+.form-group.valid input {
+    border-color: #22c55e;
+    background: #f0fdf4;
+}
+
+/* Efecto de enfoque suave */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    transform: translateY(-1px);
+}
+
+/* Separador visual entre secciones */
+.form-divider {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2ecf5, transparent);
+    margin: 0.5rem 0 1rem;
+}
+
+/* Tooltip hint */
+.field-hint {
+    font-size: 0.7rem;
+    color: #7c8ea0;
+    margin-top: -0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.field-hint::before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%237c8ea0' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.form-group label svg,
+.checkbox-card svg,
+.btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   CORRECCIÓN DE ICONOS EN FORMULARIOS
+   Tamaños proporcionales y alineación perfecta
+   ============================================ */
+
+/* Alineación y tamaño de iconos en labels */
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #2c5a7a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group label svg {
+    width: 14px !important;
+    height: 14px !important;
+    flex-shrink: 0;
+    stroke-width: 1.8;
+}
+
+/* Iconos en checkbox-card */
+.checkbox-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f8fafd;
+    border: 1.5px solid #e2ecf5;
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.checkbox-card input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: #5b8cbe;
+}
+
+.checkbox-card svg {
+    width: 18px !important;
+    height: 18px !important;
+    stroke: #22c55e;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.checkbox-card span {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.checkbox-card strong {
+    font-size: 0.9rem;
+    color: #1e3a5f;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.checkbox-card small {
+    font-size: 0.75rem;
+    color: #5a6e85;
+    line-height: 1.4;
+}
+
+/* Iconos en botones */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn svg {
+    width: 16px !important;
+    height: 16px !important;
+    flex-shrink: 0;
+}
+
+/* Ajuste específico para botón Volver que tiene flecha */
+.btn-secondary svg {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+/* Iconos en alertas */
+.form-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.875rem 1.25rem;
+    border-radius: 14px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.form-alert svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0;
+}
+
+.form-alert-error svg {
+    stroke: #dc2626;
+}
+
+.form-alert-success svg {
+    stroke: #22c55e;
+}
+
+/* Iconos en mensajes de error */
+.form-error {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    color: #dc2626;
+    font-size: 0.7rem;
+    font-weight: 500;
+    min-height: 1.25rem;
+}
+
+.form-error svg {
+    width: 12px !important;
+    height: 12px !important;
+    flex-shrink: 0;
+    stroke: #dc2626;
+}
+
+/* Contenedor de iconos en labels - forzar tamaño consistente */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Grid del formulario - mantener espaciado */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .form-group label svg {
+        width: 13px !important;
+        height: 13px !important;
+    }
+    
+    .btn svg {
+        width: 14px !important;
+        height: 14px !important;
+    }
+}
+
+/* Asegurar que todos los SVG hereden el color correcto */
+.form-group label svg,
+.btn svg,
+.checkbox-card svg {
+    stroke: currentColor;
+}
+
+/* Color específico para iconos de labels */
+.form-group label svg {
+    stroke: #5b8cbe;
+}
+
+/* Botón primario - icono blanco */
+.btn-primary svg {
+    stroke: white;
+}
+
+/* Botón secundario - icono azul */
+.btn-secondary svg {
+    stroke: #3a6ea5;
+}
+
+/* Formulario de puestos de trabajo */
+.employee-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 0.5rem;
 }
 
 .form-group label {
-    font-weight: 800;
-    font-size: 14px;
-    color: #111827;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #5b8cbe;
+    letter-spacing: 0.5px;
 }
 
 .form-group input,
-.form-group select {
-    width: 100%;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 12px 14px;
-    font-size: 15px;
-    outline: none;
-    background: white;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-}
-
-.form-error {
-    margin: 0;
-    color: #dc2626;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.form-full {
-    grid-column: 1 / -1;
-}
-
-.checkbox-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-}
-
-@media (max-width: 720px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .form-full {
-        grid-column: auto;
-    }
-}
-
-.form-alert {
-    margin-bottom: 18px;
-    padding: 12px 14px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.form-alert-error {
-    color: #991b1b;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-}
-
-.form-alert-success {
-    color: #166534;
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-}
-
-.form-error {
-    min-height: 18px;
-    margin: 0;
-    color: #dc2626;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.input-error {
-    border-color: #dc2626 !important;
-    background: #fff7f7 !important;
-}
-
-.input-error:focus {
-    border-color: #dc2626 !important;
-    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12) !important;
-}
-
+.form-group select,
 .form-group textarea {
-    width: 100%;
-    border: 1px solid #e5e7eb;
+    padding: 0.625rem 1rem;
+    border: 1.5px solid #e2ecf5;
     border-radius: 12px;
-    padding: 12px 14px;
-    font-size: 15px;
-    outline: none;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
     background: white;
-    resize: vertical;
     font-family: inherit;
 }
 
+.form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    outline: none;
+    border-color: #5b8cbe;
+    box-shadow: 0 0 0 3px rgba(91, 140, 190, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-full {
+    grid-column: span 2;
+}
+
+/* Checkbox personalizado */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: #334155;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #5b8cbe;
+}
+
+.checkbox-text {
+    user-select: none;
+}
+
+/* Input con error */
+.input-error {
+    border-color: #b91c1c !important;
+    background: #fef2f2 !important;
+}
+
+.input-error:focus {
+    border-color: #b91c1c !important;
+    box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.1) !important;
+}
+
+/* Mensaje de error */
+.form-error {
+    color: #b91c1c;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Acciones del formulario */
+.page-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2ecf5;
+}
+
+.page-actions .btn {
+    padding: 0.625rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.page-actions .btn-primary {
+    background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
+    color: white;
+    border: none;
+}
+
+.page-actions .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #4a7aac, #2e5a8a);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.page-actions .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .form-full {
+        grid-column: span 1;
+    }
+
+    .page-actions {
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .page-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
 }

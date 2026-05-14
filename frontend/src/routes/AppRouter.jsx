@@ -28,6 +28,14 @@ import { AsignarPuestoTrabajoPage } from '../pages/admins/puestosTrabajo/Asignar
 import PuestosTrabajoHomePage from '../pages/admins/puestosTrabajo/PuestosTrabajoHomePage';
 import OperarioHomePage from '../pages/operario/OperarioHomePage';
 import { TareasDisponiblesPage } from '../pages/operario/TareasDisponiblesPage';
+import MiTareaActualPage from '../pages/operario/MiTareaActualPage';
+import { RegistrarPagoEmpleadoPage } from '../pages/admins/pagos/RegistrarPagosEmpleadosPage';
+import { PagosEmpleadosPage } from '../pages/admins/pagos/PagosEmpleadosPage';
+import PagosHome from '../pages/admins/pagos/PagosHome';
+import PuestosTrabajoViewPage from '../pages/admins/puestosTrabajo/PuestosTrabajoViewPage';
+import UpdatePuestoTrabajoFormPage from '../pages/admins/puestosTrabajo/UpdatePuestoTrabajoFormPage';
+import { usePuestoTrabajoDetail } from '../hooks/puestoTrabajo/usePuestoTrabajoDetails';
+import PuestoTrabajoDetails from '../pages/admins/puestosTrabajo/PuestoTrabajoDetails';
 
 
 export default function AppRouter() {
@@ -53,7 +61,7 @@ export default function AppRouter() {
 
         <Route path="/" element={<RoleRedirect/>} />
 
-        //Rutas de usuarios
+    //Rutas de usuarios
 
     <Route element={<RoleRedirect allowedRoles={["administrador"]} />}>
     <Route path="/homeAdmin" element={<HomePage/>} />
@@ -61,6 +69,9 @@ export default function AppRouter() {
     <Route path="/empleado/view" element={<ViewEmpleadosPage />} />
     <Route path="/empleados/:id/editar" element={<UpdateEmpleadoFormPage />} />
     <Route path="/empleados/:id/detail" element={<ViewEmpleadoDetailPage />} />
+    <Route path='/empleados/pagos-empleados/:empleadoId/registrar' element={<RegistrarPagoEmpleadoPage/>}/>
+    <Route path='/empleados/pagos-empleados' element={<PagosEmpleadosPage/>}/>
+    <Route path='/pagos/home' element={<PagosHome/>}/>
 </Route>
 
 {/* Rutas gestor */}
@@ -74,6 +85,9 @@ export default function AppRouter() {
     <Route path="/puestosTrabajoForm" element={<PuestosTrabajoFormPage />} />
     <Route path="/AsignarPuestoDeTrabajo" element={<AsignarPuestoTrabajoPage />} />
     <Route path="/PuestosTrabajoHome" element={<PuestosTrabajoHomePage />} />
+    <Route path="/puestosTrabajoViews"element={<PuestosTrabajoViewPage/>}/>
+    <Route path='/puestosTrabajo/:id/editar' element={<UpdatePuestoTrabajoFormPage/>}/>
+    <Route path='/puestosTrabajo/:id/details' element={<PuestoTrabajoDetails/>}/>
 
     <Route path="/modelos/create" element={<ModelosFormPage />} />
     <Route path="/modelos/home" element={<ModeloHomePage />} />
@@ -92,6 +106,7 @@ export default function AppRouter() {
 <Route element={<RoleRedirect allowedRoles={["operario"]} />}>
     <Route path="/homeOperario" element={<OperarioHomePage />} />
     <Route path="/operario/tareas-disponibles" element={<TareasDisponiblesPage />} />
+    <Route path='/operario/mi-tarea-actual' element={<MiTareaActualPage/>}/>
 </Route>
 
 

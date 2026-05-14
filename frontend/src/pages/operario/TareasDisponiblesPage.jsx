@@ -47,7 +47,7 @@ export function TareasDisponiblesPage() {
                     <button
                         type="button"
                         className="btn btn-primary"
-                        onClick={() => navigate("/operario/tarea-actual")}
+                        onClick={() => navigate("/operario/mi-tarea-actual")}
                     >
                         Ver mi tarea actual
                     </button>

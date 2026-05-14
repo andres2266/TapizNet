@@ -1,9 +1,9 @@
 
-import { useEffect, useReducer  } from "react";
+import { useEffect, useReducer } from "react";
 import { Empleados } from '../../api/Empleados';
 
 
-const initialState = {empleados: [],loading: true,error: null,search: "",rol: "",estado: "",page: 1,};
+const initialState = { empleados: [], loading: true, error: null, search: "", rol: "", estado: "", page: 1, };
 
 function reducer(state, action) {
     switch (action.type) {
@@ -22,7 +22,7 @@ function reducer(state, action) {
 
         case "FETCH_START":
             return {
-                
+
                 ...state,
                 loading: true,
                 error: null,
@@ -42,12 +42,22 @@ function reducer(state, action) {
                 error: action.payload,
             };
 
+        case "UPDATE_EMPLEADO_ESTADO":
+            return {
+                ...state,
+                empleados: state.empleados.map((empleado) =>
+                    empleado.id === action.id
+                        ? { ...empleado, activo: action.activo }
+                        : empleado
+                ),
+            };
+
         default:
             return state;
     }
 }
 
-   export function useEmpleadosView() {
+export function useEmpleadosView() {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const fetchEmpleados = async () => {
@@ -60,8 +70,8 @@ function reducer(state, action) {
                 activo: state.estado,
                 page: state.page,
             });
-             
-            dispatch({type: "FETCH_SUCCESS",payload: data.data,});
+
+            dispatch({ type: "FETCH_SUCCESS", payload: data.data, });
 
         } catch (error) {
             dispatch({
@@ -74,14 +84,14 @@ function reducer(state, action) {
     useEffect(() => {
         const timeout = setTimeout(() => {
             fetchEmpleados();
-        }, 400); 
+        }, 400);
 
         return () => clearTimeout(timeout);
     }, [state.search, state.rol, state.estado, state.page]);
-    
+
     return {
         ...state,
         dispatch,
     };
 
-   }
+}

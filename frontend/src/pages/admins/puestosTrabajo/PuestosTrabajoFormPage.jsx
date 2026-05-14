@@ -1,20 +1,19 @@
-
-import { usePuestoTrabajoForm } from '../../../hooks/puestoTrabajo/usePuestoTrabajoForm';
-
-import PuestoTrabajoForm from '../../../components/puestosDeTrabajo/PuestoDeTrabajoForm';
-import { useNavigate } from 'react-router-dom';
+import { usePuestoTrabajoForm } from "../../../hooks/puestoTrabajo/usePuestoTrabajoForm.js";
+import PuestoTrabajoForm from "../../../components/puestosDeTrabajo/PuestoDeTrabajoForm.jsx";
 
 export default function PuestosTrabajoFormPage() {
-  const navigate = useNavigate();
-
-    const {register,handleSubmit,errors,isSubmitting,generalError,successMessage,crearPuestoTrabajo,} = usePuestoTrabajoForm();
+    const {
+        register,
+        handleSubmit,
+        errors,
+        isSubmitting,
+        generalError,
+        successMessage,
+        crearPuestoTrabajo,
+    } = usePuestoTrabajoForm();
 
     const onSubmit = async (data) => {
         await crearPuestoTrabajo(data);
-    };
-
-    const onCancel = () => {
-        navigate("/homeAdmin");
     };
 
     return (
@@ -28,13 +27,13 @@ export default function PuestosTrabajoFormPage() {
                 register={register}
                 handleSubmit={handleSubmit}
                 onSubmit={onSubmit}
-                onCancel={onCancel}
                 errors={errors}
                 isSubmitting={isSubmitting}
                 generalError={generalError}
                 successMessage={successMessage}
-                isEdit={false}
+                mode="create"
+                backPath="/PuestosTrabajoHome"
             />
         </section>
-  )
+    );
 }

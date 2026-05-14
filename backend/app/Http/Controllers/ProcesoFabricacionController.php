@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProcesoFabricacion\CreateProcesoFabricacionRequest;
+use App\Http\Requests\ProcesoFabricacion\UpdateProcesoFabricacionRequest;
 use App\Models\Modelo;
+use App\Models\ParametroFabricacion;
+use App\Models\ProcesoFabricacion;
 use App\Models\PuestoTrabajo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -100,10 +103,67 @@ class ProcesoFabricacionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+public function updateByModelo(UpdateProcesoFabricacionRequest $request, Modelo $modelo)
+{
+    $user = $request->user();
+
+    if ($modelo->empresa_id !== $user->empresa_id) {
+        return response()->json([
+            'message' => 'Modelo no encontrado.'
+        ], 404);
     }
+
+    $data = $request->validated();
+
+    DB::transaction(function () use ($data, $modelo, $user) {
+        foreach ($data['fases'] as $faseData) {
+            $fase = ProcesoFabricacion::where('id', $faseData['id'])
+                ->where('modelo_id', $modelo->id)
+                ->whereHas('puestoTrabajo', function ($query) use ($user) {
+                    $query->where('empresa_id', $user->empresa_id);
+                })
+                ->firstOrFail();
+
+            $faseCampos = collect($faseData)
+                ->only([
+                    'puesto_trabajo_id',
+                    'orden',
+                    'nombre_tarea',
+                    'descripcion',
+                    'tiempo_estimado_minutos',
+                    'precio_destajo',
+                ])
+                ->toArray();
+
+            if (!empty($faseCampos)) {
+                $fase->update($faseCampos);
+            }
+
+            if (!empty($faseData['parametros'])) {
+                foreach ($faseData['parametros'] as $parametroData) {
+                    $parametro = ParametroFabricacion::where('id', $parametroData['id'])
+                        ->where('proceso_fabricacion_id', $fase->id)
+                        ->firstOrFail();
+
+                    $parametroCampos = collect($parametroData)
+                        ->only([
+                            'nombre',
+                            'valor',
+                        ])
+                        ->toArray();
+
+                    if (!empty($parametroCampos)) {
+                        $parametro->update($parametroCampos);
+                    }
+                }
+            }
+        }
+    });
+
+    return response()->json([
+        'message' => 'Proceso de fabricación actualizado correctamente.'
+    ]);
+}
 
     /**
      * Remove the specified resource from storage.

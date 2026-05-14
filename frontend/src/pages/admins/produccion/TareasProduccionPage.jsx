@@ -49,28 +49,6 @@ export function TareasProduccionPage() {
                             }
                         />
                     </div>
-
-                    <div className="form-group">
-                        <label>Estado</label>
-                        <select
-                            value={estado}
-                            onChange={(e) =>
-                                dispatch({
-                                    type: "SET_FILTER",
-                                    field: "estado",
-                                    value: e.target.value,
-                                })
-                            }
-                        >
-                            <option value="">Todos</option>
-                            <option value="pendiente">Pendiente</option>
-                            <option value="asignada">Asignada</option>
-                            <option value="en_progreso">En progreso</option>
-                            <option value="completada">Completada</option>
-                            <option value="cancelada">Cancelada</option>
-                        </select>
-                    </div>
-
                     <div className="form-group">
                         <label>Puesto de trabajo</label>
 
@@ -168,7 +146,7 @@ export function TareasProduccionPage() {
                                         </td>
 
                                         <td>{tarea.orden_produccion?.prioridad || "Sin prioridad"}</td>
-
+                                                {console.log(tarea + 'sca')}
                                         <td>
                                             {Number(tarea.ganancia_destajo || 0).toFixed(2)} €
                                         </td>

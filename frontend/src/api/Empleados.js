@@ -18,7 +18,7 @@ export const Empleados = {
                 rol: "operario",
                 activo: 1,
                 disponibles: 1,
-                
+
             },
         })
         return response.data
@@ -29,10 +29,10 @@ export const Empleados = {
         return response.data;
     },
 
-    show: async (id)=>{
-         const response = await api.get(`/empleados/${id}`);
-         
-         return response.data
+    show: async (id) => {
+        const response = await api.get(`/empleados/${id}`);
+
+        return response.data
     },
 
 
@@ -44,4 +44,12 @@ export const Empleados = {
 
         return response.data;
     },
+
+    updateEstado: async (id, activo) => {
+    const response = await api.patch(`/empleados/${id}/estado`, {
+        activo,
+    });
+
+    return response.data;
+},
 }

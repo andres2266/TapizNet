@@ -101,8 +101,11 @@ export function useAsignarPuestoTrabajo() {
                     search: state.search,
                     sin_puesto: 1,
                     page: state.page,
+                    
                 }),
-                PuestosTrabajo.view(),
+                PuestosTrabajo.view({
+                    estado:'activo'
+                }),
             ]);
 
             dispatch({

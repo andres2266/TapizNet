@@ -10,11 +10,11 @@ export const TareasProduccion = {
     },
 
     asignar: async (tareaId, data) => {
-        const response = await api.post(`/tareas-produccion/${tareaId}/asignar`,data);
+        const response = await api.post(`/tareas-produccion/${tareaId}/asignar`, data);
         return response.data;
     },
 
-   disponibles: async (params = {}) => {
+    disponibles: async (params = {}) => {
         const response = await api.get("/tareas-produccion/mis-disponibles", {
             params,
         });
@@ -28,6 +28,12 @@ export const TareasProduccion = {
 
     terminar: async (tareaId, data = {}) => {
         const response = await api.patch(`/operario/tareas/${tareaId}/terminar`, data);
+        return response.data;
+    },
+
+    obtenerTareaActual: async () => {
+        const response = await api.get("/operario/tareas/actual");
+
         return response.data;
     },
 };

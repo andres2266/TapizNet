@@ -23,9 +23,10 @@ class UpdateEmpleadoRequest extends FormRequest
      */
     public function rules(): array
     {
-        $empleadoId = $this->route('empleado');
-        return [
-             'usuario' => [
+         $empleadoId = $this->route('empleado')?->id;
+
+    return [
+        'usuario' => [
             'sometimes',
             'string',
             'max:50',
@@ -36,7 +37,7 @@ class UpdateEmpleadoRequest extends FormRequest
         'email' => [
             'sometimes',
             'nullable',
-            'email:rfc,dns',
+            'email:rfc',
             'max:255',
             Rule::unique('empleados', 'email')->ignore($empleadoId),
         ],

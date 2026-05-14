@@ -1,0 +1,212 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #1e3a5f, #2c5a7a);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 0.25rem;
+}
+
+.page-header p {
+    color: #5a6e85;
+    font-size: 0.875rem;
+}
+
+/* Grid de estadísticas */
+.production-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+/* Tarjetas de estadísticas */
+.production-stat-card {
+    background: linear-gradient(135deg, #ffffff, #f8fafd);
+    border: 1px solid #e2ecf5;
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.production-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #5b8cbe, #3a6ea5);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.production-stat-card:hover::before {
+    transform: scaleX(1);
+}
+
+.production-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(58, 110, 165, 0.1);
+}
+
+/* Icono de la tarjeta */
+.production-stat-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #e2ecf5, #d0e0f0);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.production-stat-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: #3a6ea5;
+    stroke-width: 1.7;
+}
+
+/* Título de la tarjeta */
+.production-stat-card h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #5a6e85;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Valor numérico */
+.production-stat-card strong {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1e3a5f;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Descripción */
+.production-stat-card p {
+    font-size: 0.7rem;
+    color: #7c8ea0;
+    margin: 0;
+}
+
+/* Tarjeta de acciones */
+.production-actions-card {
+    background: linear-gradient(135deg, #ffffff, #f8fafd);
+    border: 1px solid #e2ecf5;
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+}
+
+.production-actions-card h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e3a5f;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.production-actions-card h2::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
+    border-radius: 2px;
+    display: inline-block;
+}
+
+/* Botones de acción */
+.production-actions-card .page-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Mensaje de carga mejorado */
+.loading-card {
+    background: #f8fafd;
+    border: 1px solid #e2ecf5;
+    border-radius: 1.25rem;
+    padding: 2rem;
+    text-align: center;
+    color: #5a6e85;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.loading-card svg {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .production-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .production-stat-card strong {
+        font-size: 1.5rem;
+    }
+    
+    .production-stat-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .production-stat-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .production-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .production-actions-card .page-actions {
+        flex-direction: column;
+    }
+    
+    .production-actions-card .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

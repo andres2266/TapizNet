@@ -1,0 +1,221 @@
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Tarjetas de estadísticas */
+.dashboard-stat-card {
+    background: linear-gradient(135deg, #ffffff, #f8fafd);
+    border: 1px solid #e2ecf5;
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #5b8cbe, #3a6ea5);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.dashboard-stat-card:hover::before {
+    transform: scaleX(1);
+}
+
+.dashboard-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(58, 110, 165, 0.1);
+}
+
+/* Header de tarjeta */
+.dashboard-stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.dashboard-stat-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #5a6e85;
+    font-weight: 600;
+}
+
+.dashboard-stat-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #e2ecf5, #d0e0f0);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-stat-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: #3a6ea5;
+}
+
+/* Valor de estadística */
+.dashboard-stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e3a5f;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.dashboard-stat-subtitle {
+    font-size: 0.7rem;
+    color: #7c8ea0;
+}
+
+/* Sección de accesos rápidos */
+.quick-actions-section {
+    background: linear-gradient(135deg, #ffffff, #f8fafd);
+    border: 1px solid #e2ecf5;
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.quick-actions-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e3a5f;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quick-actions-title::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
+    border-radius: 2px;
+    display: inline-block;
+}
+
+/* Grid de accesos rápidos */
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+/* Card de acceso rápido */
+.quick-action-card {
+    background: #f8fafd;
+    border: 1px solid #e2ecf5;
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.quick-action-card:hover {
+    background: #ffffff;
+    border-color: #5b8cbe;
+    transform: translateX(6px);
+}
+
+.quick-action-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #e2ecf5, #d0e0f0);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.quick-action-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: #3a6ea5;
+}
+
+.quick-action-info h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1e3a5f;
+    margin-bottom: 0.25rem;
+}
+
+.quick-action-info p {
+    font-size: 0.7rem;
+    color: #7c8ea0;
+    margin: 0;
+}
+
+/* Mensaje de error */
+.dashboard-error {
+    background: #fef2f2;
+    border-left: 4px solid #dc2626;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #b91c1c;
+    font-size: 0.875rem;
+}
+
+/* Estado de carga en tarjeta */
+.dashboard-stat-loading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #9ca3af;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.dashboard-stat-loading svg {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-stats {
+        gap: 1rem;
+    }
+    
+    .dashboard-stat-value {
+        font-size: 1.75rem;
+    }
+    
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-action-card:hover {
+        transform: translateX(4px);
+    }
+}

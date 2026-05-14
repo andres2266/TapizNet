@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PuestosTrabajo\CreatePuestoTrabajoRequest;
+use App\Http\Requests\PuestosTrabajo\UpdatePuestoTrabajoRequest;
 use App\Models\PuestoTrabajo;
 use Illuminate\Http\Request;
 
@@ -15,35 +16,53 @@ class PuestoTrabajoController extends Controller
     {
         $user = $request->user();
 
-    if (!in_array($user->rol, ['administrador', 'gestor'])) {
+        if (!in_array($user->rol, ['administrador', 'gestor'])) {
+            return response()->json([
+                'message' => 'No tienes permisos para ver puestos de trabajo.'
+            ], 403);
+        }
+
+        $perPage = $request->input('per_page', 10);
+
+        $puestosTrabajo = PuestoTrabajo::where('empresa_id', $user->empresa_id)
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->search;
+
+                $query->where(function ($q) use ($search) {
+                    $q->where('nombre', 'like', "%{$search}%")
+                        ->orWhere('descripcion', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->filled('estado'), function ($query) use ($request) {
+                if ($request->estado === 'activo') {
+                    $query->where('activo', true);
+                }
+
+                if ($request->estado === 'inactivo') {
+                    $query->where('activo', false);
+                }
+            })
+            ->select(
+                'id',
+                'empresa_id',
+                'nombre',
+                'descripcion',
+                'activo',
+                'created_at'
+            )
+            ->orderBy('nombre')
+            ->paginate($perPage);
+
         return response()->json([
-            'message' => 'No tienes permisos para ver puestos de trabajo.'
-        ], 403);
+            'message' => 'Lista de puestos de trabajo',
+            'data' => $puestosTrabajo,
+        ]);
     }
-
-    $puestosTrabajo = PuestoTrabajo::where('empresa_id', $user->empresa_id)
-        ->when($request->search, function ($query) use ($request) {
-            $query->where(function ($q) use ($request) {
-                $q->where('nombre', 'like', "%{$request->search}%");
-            });
-        })
-        ->select('id', 'empresa_id', 'nombre')
-        ->orderBy('nombre')
-        ->paginate(10);
-
-    return response()->json([
-        'message' => 'Lista de puestos de trabajo',
-        'data' => $puestosTrabajo
-    ]);
-}
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -60,6 +79,8 @@ class PuestoTrabajoController extends Controller
         $puestoTrabajo = PuestoTrabajo::create([
             'empresa_id' => $user->empresa_id,
             'nombre' => $data['nombre'],
+            'activo' => $data['activo'],
+            'descripcion' => $data['descripcion']
         ]);
 
         return response()->json([
@@ -71,9 +92,57 @@ class PuestoTrabajoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, PuestoTrabajo $puestoTrabajo)
     {
-        //
+        $user = $request->user();
+
+        if (!in_array($user->rol, ['administrador', 'gestor'])) {
+            return response()->json([
+                'message' => 'No tienes permisos para ver este puesto de trabajo.'
+            ], 403);
+        }
+
+        $puestoTrabajo = PuestoTrabajo::where('empresa_id', $user->empresa_id)
+            ->where('id', $puestoTrabajo->id)
+            ->firstOrFail();
+
+        return response()->json([
+            'message' => 'Detalle del puesto de trabajo.',
+            'data' => $puestoTrabajo
+        ]); {
+        }
+    }
+
+    public function cambiarEstado(Request $request, PuestoTrabajo $puesto)
+    {
+        $usuario = $request->user();
+
+        if ($puesto->empresa_id !== $usuario->empresa_id) {
+            return response()->json([
+                'message' => 'Puesto de trabajo no encontrado.'
+            ], 404);
+        }
+
+        if (!in_array($usuario->rol, ['administrador'])) {
+            return response()->json([
+                'message' => 'No tienes permisos para cambiar el estado del puesto de trabajo.'
+            ], 403);
+        }
+
+        $request->validate([
+            'activo' => ['required', 'boolean'],
+        ]);
+
+
+        $puesto->activo = $request->activo;
+        $puesto->save();
+
+        return response()->json([
+            'message' => $puesto->activo
+                ? 'Puesto de trabajo activado correctamente.'
+                : 'Puesto de trabajo desactivado correctamente.',
+            'data' => $puesto,
+        ]);
     }
 
     /**
@@ -87,16 +156,38 @@ class PuestoTrabajoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdatePuestoTrabajoRequest $request, PuestoTrabajo $puestoTrabajo)
     {
-        //
+        $user = $request->user();
+
+        $puestoTrabajo = PuestoTrabajo::where('empresa_id', $user->empresa_id)
+            ->where('id', $puestoTrabajo->id)
+            ->firstOrFail();
+
+        if ($puestoTrabajo->tareasProduccion()->exists()) {
+            return response()->json([
+                'message' => 'No puedes modificar este puesto de trabajo porque ya tiene tareas de producción asociadas.'
+            ], 409);
+        }
+
+        $data = $request->validated();
+
+        $data = array_filter($data, function ($value) {
+            return !is_null($value);
+        });
+
+
+
+        $puestoTrabajo->update($data);
+
+        return response()->json([
+            'message' => 'Puesto de trabajo actualizado correctamente.',
+            'data' => $puestoTrabajo->fresh()
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        
-    }
+    public function destroy(string $id) {}
 }

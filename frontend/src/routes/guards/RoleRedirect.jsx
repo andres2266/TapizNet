@@ -1,8 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { authStore } from '../../stores/auth';
+import { authStore } from "../../stores/auth";
 
-export function RoleRedirect({ allowedRoles }) {
- const empleado = authStore((state) => state.empleado);
+export function RoleRedirect({ allowedRoles = [] }) {
+    const empleado = authStore((state) => state.empleado);
+
     if (!empleado) {
         return <Navigate to="/login" replace />;
     }
@@ -20,4 +21,4 @@ export function RoleRedirect({ allowedRoles }) {
     }
 
     return <Outlet />;
-  }
+}

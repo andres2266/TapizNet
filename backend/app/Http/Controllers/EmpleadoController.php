@@ -110,9 +110,14 @@ class EmpleadoController extends Controller
 
         if ($usuario->empresa_id !== $empleado->empresa_id) {
             return response()->json([
-                'message' => 'No puedes ver empleados de otra empresa.',
-            ], 403);
+                'message' => 'Empleado no encontrado.',
+            ], 404);
         }
+
+        $empleado->load([
+            'empresa:id,nombre,email,telefono',
+            'puestoTrabajo:id,nombre',
+        ]);
 
         return response()->json([
             'message' => 'Empleado encontrado correctamente.',
@@ -202,6 +207,46 @@ class EmpleadoController extends Controller
             'message' => 'Puesto de trabajo asignado correctamente.',
             'empleado' => $empleado->load([
                 'puestoTrabajo:id,nombre',
+            ]),
+        ], 200);
+    }
+
+
+    public function updateEstado(UpdateEmpleadoRequest $request, Empleado $empleado)
+    {
+        $usuario = $request->user();
+
+        if (!in_array($usuario->rol, ['administrador', 'gestor'])) {
+            return response()->json([
+                'message' => 'No tienes permisos para cambiar el estado del empleado.'
+            ], 403);
+        }
+
+        if ($empleado->empresa_id !== $usuario->empresa_id) {
+            return response()->json([
+                'message' => 'Empleado no encontrado.'
+            ], 404);
+        }
+
+        if ($usuario->id === $empleado->id) {
+            return response()->json([
+                'message' => 'No puedes darte de baja a ti mismo.'
+            ], 422);
+        }
+
+        $validated = $request->validated();
+
+        $empleado->update([
+            'activo' => $validated['activo'],
+        ]);
+
+        return response()->json([
+            'message' => $empleado->activo
+                ? 'Empleado activado correctamente.'
+                : 'Empleado dado de baja correctamente.',
+            'empleado' => $empleado->load([
+                'puestoTrabajo:id,nombre',
+                'empresa:id,nombre',
             ]),
         ], 200);
     }

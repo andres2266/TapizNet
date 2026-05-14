@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useEmpleadoUpdateForm } from '../../hooks/empleados/useEmpleadosUpdateForm';
+
 import EmpleadoForm from '../../components/admin/EmpleadoForm';
+import { useEmpleadoUpdateForm } from '../../hooks/empleados/useEmpleadosUpdateForm';
 
 export default function UpdateEmpleadoFormPage() {
     const { id } = useParams();

@@ -1,78 +1,128 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import Icons from "../../utils/icons";
 
-export default function PuestoTrabajoForm({ register,handleSubmit,onSubmit,onCancel,errors,isSubmitting,generalError,successMessage,isEdit = false,}) {
+export default function PuestoTrabajoForm({
+    register,
+    handleSubmit,
+    errors,
+    isSubmitting,
+    onSubmit,
+    generalError = null,
+    successMessage = null,
+    backPath = "/puestosTrabajo",
+    mode = "create",
+}) {
+    const isEdit = mode === "edit";
+
     return (
-        <form className="card employee-form" onSubmit={handleSubmit(onSubmit)}>
+        <form className="employee-form" onSubmit={handleSubmit(onSubmit)}>
             {generalError && (
                 <div className="form-alert form-alert-error">
-                    {generalError}
+                    <Icons.Alert size={18} />
+                    <span>{generalError}</span>
                 </div>
             )}
 
             {successMessage && (
                 <div className="form-alert form-alert-success">
-                    {successMessage}
+                    <Icons.Check size={18} />
+                    <span>{successMessage}</span>
                 </div>
             )}
 
             <div className="form-grid">
-                <div className="form-group form-full">
-                    <label>Nombre del puesto</label>
+                <div className="form-group">
+                    <label>
+                        <Icons.Role size={14} />
+                        Nombre del puesto
+                    </label>
 
                     <input
                         type="text"
-                        placeholder="Ej: Tapicero"
-                        disabled={isSubmitting}
-                        {...register("nombre", {
-                            minLength: {
-                                value: 2,
-                                message: "Debe tener al menos 2 caracteres.",
-                            },
-                            maxLength: {
-                                value: 100,
-                                message: "No puede superar los 100 caracteres.",
-                            },
-                            pattern: {
-                                value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u,
-                                message: "Solo puede contener letras y espacios.",
-                            },
-                        })}
+                        placeholder={
+                            isEdit
+                                ? "Nuevo nombre del puesto..."
+                                : "Ej: Tapicero, Cortador, Costurera..."
+                        }
+                        {...register("nombre")}
                         className={errors.nombre ? "input-error" : ""}
                     />
 
-                    <p className="form-error">
-                        {errors.nombre?.message}
-                    </p>
+                    {errors.nombre && (
+                        <p className="form-error">{errors.nombre.message}</p>
+                    )}
+                </div>
+
+                <div className="form-group">
+                    <label>
+                        <Icons.Check size={14} />
+                        Estado
+                    </label>
+
+                    <div className="checkbox-group">
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                {...register("activo")}
+                                defaultChecked={!isEdit}
+                            />
+
+                            <span className="checkbox-text">
+                                Activo
+                            </span>
+                        </label>
+                    </div>
+
+                    {errors.activo && (
+                        <p className="form-error">{errors.activo.message}</p>
+                    )}
+                </div>
+
+                <div className="form-group form-full">
+                    <label>
+                        <Icons.Info size={14} />
+                        Descripción
+                    </label>
+
+                    <textarea
+                        rows="5"
+                        placeholder={
+                            isEdit
+                                ? "Nueva descripción del puesto..."
+                                : "Describe las funciones y responsabilidades del puesto..."
+                        }
+                        {...register("descripcion")}
+                        className={errors.descripcion ? "input-error" : ""}
+                    />
+
+                    {errors.descripcion && (
+                        <p className="form-error">
+                            {errors.descripcion.message}
+                        </p>
+                    )}
                 </div>
             </div>
 
             <div className="page-actions">
+                <Link className="btn btn-secondary" to={backPath}>
+                    <Icons.Close size={12} />
+                    Volver
+                </Link>
+
                 <button
-                    className="btn btn-primary"
                     type="submit"
+                    className="btn btn-primary"
                     disabled={isSubmitting}
                 >
                     {isSubmitting
                         ? isEdit
-                            ? "Guardando..."
-                            : "Creando..."
+                            ? "Actualizando..."
+                            : "Guardando..."
                         : isEdit
-                            ? "Guardar cambios"
-                            : "Crear puesto"}
+                            ? "Actualizar puesto"
+                            : "Guardar puesto"}
                 </button>
-
-                <button
-                    className="btn btn-secondary"
-                    type="button"
-                    onClick={onCancel}
-                    disabled={isSubmitting}
-                >
-                    Cancelar
-                </button>
-
-                <Link className="btn btn-secondary" to="/homeAdmin">
-                    Volver
-                </Link>
             </div>
         </form>
     );

@@ -90,7 +90,7 @@ export function useTareasProduccionView() {
 
             const data = await TareasProduccion.get({
                 search: state.search,
-                estado: state.estado,
+                estado_diferente: "completada",
                 puesto_trabajo_id: state.puestoTrabajoId,
                 empleado_id: state.empleadoId,
                 orden_produccion_id: state.ordenProduccionId,

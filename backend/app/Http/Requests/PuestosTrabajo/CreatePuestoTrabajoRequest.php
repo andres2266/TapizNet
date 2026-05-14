@@ -25,7 +25,7 @@ class CreatePuestoTrabajoRequest extends FormRequest
     {
         $empresaId = $this->user()?->empresa_id;
         return [
-             'nombre' => [
+            'nombre' => [
                 'required',
                 'string',
                 'min:2',
@@ -34,18 +34,39 @@ class CreatePuestoTrabajoRequest extends FormRequest
                 Rule::unique('puestos_de_trabajo', 'nombre')
                     ->where('empresa_id', $empresaId),
             ],
+
+            'descripcion' => [
+                'nullable',
+                'string',
+                'min:5',
+                'max:1000',
+            ],
+
+            'activo' => [
+                'nullable',
+                'boolean',
+            ],
+
         ];
     }
 
     public function messages(): array
     {
         return [
+
             'nombre.required' => 'El nombre del puesto de trabajo es obligatorio.',
             'nombre.string' => 'El nombre debe ser texto.',
             'nombre.min' => 'El nombre debe tener al menos 2 caracteres.',
             'nombre.max' => 'El nombre no puede superar los 100 caracteres.',
             'nombre.regex' => 'El nombre solo puede contener letras y espacios.',
             'nombre.unique' => 'Ya existe un puesto de trabajo con ese nombre en esta empresa.',
+
+            'descripcion.string' => 'La descripción debe ser texto.',
+            'descripcion.min' => 'La descripción debe tener al menos 5 caracteres.',
+            'descripcion.max' => 'La descripción no puede superar los 1000 caracteres.',
+
+            'activo.boolean' => 'El estado del puesto de trabajo no es válido.',
+
         ];
     }
 }
