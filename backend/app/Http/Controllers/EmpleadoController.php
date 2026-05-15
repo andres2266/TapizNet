@@ -102,7 +102,7 @@ class EmpleadoController extends Controller
     {
         $usuario = $request->user();
 
-        if (!in_array($usuario->rol, ['administrador', 'gestor'])) {
+        if (!in_array($usuario->rol, ['administrador', 'gestor','operario'])) {
             return response()->json([
                 'message' => 'No tienes permisos para ver este empleado.',
             ], 403);

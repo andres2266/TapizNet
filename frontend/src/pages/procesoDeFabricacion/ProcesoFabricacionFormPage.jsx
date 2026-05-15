@@ -3,9 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useProcesoFabricacionForm } from "../../hooks/procesosFabricacion/useProcesoFabricacionForm";
 import ProcesoFabricacionForm from "../../components/ProcesosFabricacion/ProcesoFabricacionForm";
 
-
-
-
 export default function CrearProcesoFabricacionPage() {
     const { modeloId } = useParams();
     const navigate = useNavigate();
@@ -38,9 +35,7 @@ export default function CrearProcesoFabricacionPage() {
         <section className="page">
             <div className="page-header">
                 <h1>Crear proceso de fabricación</h1>
-                <p>
-                    Define las fases necesarias para fabricar este modelo.
-                </p>
+                <p>Define las fases necesarias para fabricar este modelo.</p>
             </div>
 
             {loadingPuestos ? (
@@ -63,6 +58,7 @@ export default function CrearProcesoFabricacionPage() {
                         puestosTrabajo={puestosTrabajo}
                         successMessage={successMessage}
                         generalError={generalError}
+                        mode="create"
                     />
                 </div>
             )}

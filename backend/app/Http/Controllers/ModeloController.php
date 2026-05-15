@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Modelos\CreateModeloRequest;
+use App\Http\Requests\Modelos\UpdateEstadoModeloRequest;
+use App\Http\Requests\Modelos\UpdateModeloRequest;
 use App\Models\Modelo;
 use Illuminate\Http\Request;
 
@@ -20,9 +22,17 @@ class ModeloController extends Controller
                 'message' => 'No tienes permisos para ver los modelos.',
             ], 403);
         }
+
         $modelos = Modelo::where('empresa_id', $user->empresa_id)
-            ->select('id', 'empresa_id', 'nombre', 'descripcion')
+            ->select(
+                'id',
+                'empresa_id',
+                'nombre',
+                'descripcion',
+                'activo'
+            )
             ->withCount('procesosFabricacion')
+
             ->when($request->search, function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
                     $q->where('nombre', 'like', "%{$request->search}%")
@@ -30,6 +40,7 @@ class ModeloController extends Controller
                 });
             })
             ->when($request->estado_proceso, function ($query) use ($request) {
+
                 if ($request->estado_proceso === 'configurado') {
                     $query->has('procesosFabricacion');
                 }
@@ -38,6 +49,17 @@ class ModeloController extends Controller
                     $query->doesntHave('procesosFabricacion');
                 }
             })
+            ->when($request->activo !== null, function ($query) use ($request) {
+
+                if ($request->activo === 'activo') {
+                    $query->where('activo', true);
+                }
+
+                if ($request->activo === 'inactivo') {
+                    $query->where('activo', false);
+                }
+            })
+
             ->orderBy('nombre')
             ->paginate(10);
 
@@ -83,7 +105,27 @@ class ModeloController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id) {}
+    public function show(Request $request, Modelo $modelo)
+    {
+        $usuario = $request->user();
+
+        if (!in_array($usuario->rol, ['administrador', 'gestor'])) {
+            return response()->json([
+                'message' => 'No tienes permisos para ver este modelo.'
+            ], 403);
+        }
+
+        if ($modelo->empresa_id !== $usuario->empresa_id) {
+            return response()->json([
+                'message' => 'Modelo no encontrado.'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Modelo encontrado correctamente',
+            'modelo' => $modelo
+        ], 200);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -96,9 +138,28 @@ class ModeloController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateModeloRequest $request, Modelo $modelo)
     {
-        //
+        $usuario = $request->user();
+
+        if ($modelo->empresa_id !== $usuario->empresa_id) {
+            return response()->json([
+                'message' => 'Modelo no encontrado.'
+            ], 404);
+        }
+
+        $data = $request->validated();
+
+        $data = array_filter($data, function ($value) {
+            return $value !== null && $value !== '';
+        });
+
+        $modelo->update($data);
+
+        return response()->json([
+            'message' => 'Modelo actualizado correctamente',
+            'modelo' => $modelo->fresh()
+        ], 200);
     }
 
     /**
@@ -107,5 +168,38 @@ class ModeloController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function updateEstado(UpdateModeloRequest $request, Modelo $modelo)
+    {
+        $usuario = $request->user();
+
+        if ($modelo->empresa_id !== $usuario->empresa_id) {
+            return response()->json([
+                'message' => 'Modelo no encontrado.'
+            ], 404);
+        }
+
+        if ($request->boolean('activo') === false && $modelo->ordenesProduccion()->exists()) {
+            return response()->json([
+                'message' => 'No puedes dar de baja un modelo con órdenes de producción asociadas.'
+            ], 422);
+        }
+
+        $validated = $request->validated();
+
+        $modelo->update([
+            'activo' => $validated['activo'],
+        ]);
+
+        return response()->json([
+            'message' => $modelo->activo
+                ? 'Modelo activado correctamente.'
+                : 'Modelo dado de baja correctamente.',
+            'modelo' => $modelo->load([
+                'empresa:id,nombre',
+            ]),
+        ], 200);
     }
 }

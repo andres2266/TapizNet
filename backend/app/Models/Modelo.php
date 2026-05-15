@@ -9,7 +9,7 @@ class Modelo extends Model
 {
     protected $table = 'modelos';
 
-    protected $fillable = ['empresa_id','nombre','descripcion','imagen_url',];
+    protected $fillable = ['empresa_id','nombre','descripcion','imagen_url','activo'];
 
     public function empresa(){
 

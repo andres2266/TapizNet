@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProcesoFabricacion\CreateProcesoFabricacionRequest;
 use App\Http\Requests\ProcesoFabricacion\UpdateProcesoFabricacionRequest;
+use App\Http\Requests\PuestosTrabajo\UpdatePuestoTrabajoRequest;
 use App\Models\Modelo;
 use App\Models\ParametroFabricacion;
 use App\Models\ProcesoFabricacion;
@@ -87,10 +88,35 @@ class ProcesoFabricacionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
+    public function showByModelo(Request $request, Modelo $modelo)
+{
+    $usuario = $request->user();
+
+    if (!in_array($usuario->rol, ['administrador', 'gestor'])) {
+        return response()->json([
+            'message' => 'No tienes permisos para ver este proceso de fabricación.',
+        ], 403);
     }
+
+    if ($usuario->empresa_id !== $modelo->empresa_id) {
+        return response()->json([
+            'message' => 'Modelo no encontrado.',
+        ], 404);
+    }
+
+    $modelo->load([
+        'procesosFabricacion' => function ($query) {
+            $query->orderBy('orden');
+        },
+        'procesosFabricacion.puestoTrabajo:id,nombre',
+        'procesosFabricacion.parametrosFabricacion:id,proceso_fabricacion_id,nombre_parametro,valor',
+    ]);
+
+    return response()->json([
+        'message' => 'Proceso de fabricación encontrado correctamente.',
+        'data' => $modelo,
+    ]);
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -103,7 +129,7 @@ class ProcesoFabricacionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-public function updateByModelo(UpdateProcesoFabricacionRequest $request, Modelo $modelo)
+public function updateByModelo(UpdatePuestoTrabajoRequest $request, Modelo $modelo)
 {
     $user = $request->user();
 
@@ -116,44 +142,63 @@ public function updateByModelo(UpdateProcesoFabricacionRequest $request, Modelo 
     $data = $request->validated();
 
     DB::transaction(function () use ($data, $modelo, $user) {
-        foreach ($data['fases'] as $faseData) {
-            $fase = ProcesoFabricacion::where('id', $faseData['id'])
-                ->where('modelo_id', $modelo->id)
-                ->whereHas('puestoTrabajo', function ($query) use ($user) {
-                    $query->where('empresa_id', $user->empresa_id);
-                })
-                ->firstOrFail();
 
-            $faseCampos = collect($faseData)
-                ->only([
+        foreach ($data['fases'] as $faseData) {
+
+            
+            if (!empty($faseData['id'])) {
+                // Fase existente
+                $fase = ProcesoFabricacion::where('id', $faseData['id'])
+                    ->where('modelo_id', $modelo->id)
+                    ->whereHas('puestoTrabajo', function ($query) use ($user) {
+                        $query->where('empresa_id', $user->empresa_id);
+                    })
+                    ->firstOrFail();
+
+                $fase->update(collect($faseData)->only([
                     'puesto_trabajo_id',
                     'orden',
                     'nombre_tarea',
                     'descripcion',
                     'tiempo_estimado_minutos',
                     'precio_destajo',
-                ])
-                ->toArray();
+                ])->toArray());
 
-            if (!empty($faseCampos)) {
-                $fase->update($faseCampos);
+            } else {
+                // Fase nueva
+                $fase = ProcesoFabricacion::create([
+                    'modelo_id' => $modelo->id,
+                    'puesto_trabajo_id' => $faseData['puesto_trabajo_id'],
+                    'orden' => $faseData['orden'],
+                    'nombre_tarea' => $faseData['nombre_tarea'],
+                    'descripcion' => $faseData['descripcion'],
+                    'tiempo_estimado_minutos' => $faseData['tiempo_estimado_minutos'],
+                    'precio_destajo' => $faseData['precio_destajo'],
+                ]);
             }
 
+            // 🔹 2. PARÁMETROS
             if (!empty($faseData['parametros'])) {
                 foreach ($faseData['parametros'] as $parametroData) {
-                    $parametro = ParametroFabricacion::where('id', $parametroData['id'])
-                        ->where('proceso_fabricacion_id', $fase->id)
-                        ->firstOrFail();
 
-                    $parametroCampos = collect($parametroData)
-                        ->only([
+                    if (!empty($parametroData['id'])) {
+                        // Parámetro existente
+                        $parametro = ParametroFabricacion::where('id', $parametroData['id'])
+                            ->where('proceso_fabricacion_id', $fase->id)
+                            ->firstOrFail();
+
+                        $parametro->update(collect($parametroData)->only([
                             'nombre',
                             'valor',
-                        ])
-                        ->toArray();
+                        ])->toArray());
 
-                    if (!empty($parametroCampos)) {
-                        $parametro->update($parametroCampos);
+                    } else {
+                        // Parámetro nuevo
+                        ParametroFabricacion::create([
+                            'proceso_fabricacion_id' => $fase->id,
+                            'nombre' => $parametroData['nombre'],
+                            'valor' => $parametroData['valor'],
+                        ]);
                     }
                 }
             }
@@ -164,6 +209,9 @@ public function updateByModelo(UpdateProcesoFabricacionRequest $request, Modelo 
         'message' => 'Proceso de fabricación actualizado correctamente.'
     ]);
 }
+
+
+
 
     /**
      * Remove the specified resource from storage.

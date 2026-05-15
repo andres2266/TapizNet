@@ -1,7 +1,8 @@
+// src/pages/operario/TareasDisponiblesPage.jsx
 import { Link, useNavigate } from "react-router-dom";
+import Icons from "../../utils/icons";
 import { useTareasDisponibles } from "../../hooks/empleados/useTareasDisponibles";
 import { TareasDisponiblesTable } from "../../components/Operario/TareasDisponiblesTable";
-
 
 export function TareasDisponiblesPage() {
     const navigate = useNavigate();
@@ -28,8 +29,12 @@ export function TareasDisponiblesPage() {
         await autoAsignarTarea(tareaId);
     };
 
+    const handleVerProceso = (tareaId) => {
+         navigate(`/tareas/${tareaId}/showInstrucciones/`);
+    };
+  
     return (
-        <main className="page">
+        <section className="page">
             <div className="page-header">
                 <div>
                     <h1>Tareas disponibles</h1>
@@ -38,54 +43,55 @@ export function TareasDisponiblesPage() {
                         de trabajo.
                     </p>
                 </div>
-
-                <div className="page-actions">
-                <Link className="btn btn-secondary" to="/homeOperario">
-                    Volver
-                </Link>
-
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={() => navigate("/operario/mi-tarea-actual")}
-                    >
-                        Ver mi tarea actual
-                    </button>
+                <div className="page-header-date">
+                    <Icons.Calendar size={14} />
+                    {new Date().toLocaleDateString('es-ES', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    })}
                 </div>
             </div>
 
-            <section className="card">
+            <div className="card">
+                {/* Mensaje de error */}
                 {error && (
                     <div className="form-alert form-alert-error">
-                        {error}
+                        <Icons.Alert size={18} />
+                        <span>{error}</span>
                         <button
                             type="button"
-                            className="btn btn-secondary"
+                            className="btn-close"
                             onClick={clearMessages}
                         >
-                            Cerrar
+                            <Icons.Close size={12} />
                         </button>
                     </div>
                 )}
 
+                {/* Mensaje de éxito */}
                 {successMessage && (
                     <div className="form-alert form-alert-success">
-                        {successMessage}
+                        <Icons.Check size={18} />
+                        <span>{successMessage}</span>
                         <button
                             type="button"
-                            className="btn btn-secondary"
+                            className="btn-close"
                             onClick={clearMessages}
                         >
-                            Cerrar
+                            <Icons.Close size={12} />
                         </button>
                     </div>
                 )}
 
                 <div className="filters">
                     <div className="form-group">
-                        <label htmlFor="search">Buscar tarea</label>
+                        <label>
+                            <Icons.Search size={12} />
+                            Buscar tarea
+                        </label>
                         <input
-                            id="search"
                             type="text"
                             name="search"
                             value={search}
@@ -95,9 +101,11 @@ export function TareasDisponiblesPage() {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="prioridad">Prioridad</label>
+                        <label>
+                            <Icons.Alert size={12} />
+                            Prioridad
+                        </label>
                         <select
-                            id="prioridad"
                             name="prioridad"
                             value={prioridad}
                             onChange={handleFilterChange}
@@ -112,8 +120,9 @@ export function TareasDisponiblesPage() {
                 </div>
 
                 {loading ? (
-                    <div className="form-alert">
-                        Cargando tareas disponibles...
+                    <div className="loading-message">
+                        <Icons.Info size={24} />
+                        <p>Cargando tareas disponibles...</p>
                     </div>
                 ) : (
                     <>
@@ -121,35 +130,40 @@ export function TareasDisponiblesPage() {
                             tareas={tareas}
                             assigning={assigning}
                             onAutoAsignar={handleAutoAsignar}
+                            onVerProceso={handleVerProceso}
                         />
 
                         <div className="pagination">
                             <button
-                                type="button"
                                 className="btn btn-secondary"
                                 disabled={currentPage <= 1}
                                 onClick={() => changePage(page - 1)}
                             >
+                                <Icons.ArrowRight size={12} style={{ transform: 'rotate(180deg)' }} />
                                 Anterior
                             </button>
 
-                            <span>
-                                Página {currentPage} de {lastPage} — Total:{" "}
-                                {total}
+                            <span className="page-info">
+                                Página {currentPage} de {lastPage} — Total: {total}
                             </span>
 
                             <button
-                                type="button"
                                 className="btn btn-secondary"
                                 disabled={currentPage >= lastPage}
                                 onClick={() => changePage(page + 1)}
                             >
                                 Siguiente
+                                <Icons.ArrowRight size={12} />
                             </button>
+
+                            <Link className="btn btn-secondary" to="/homeOperario">
+                                <Icons.Close size={12} />
+                                Volver
+                            </Link>
                         </div>
                     </>
                 )}
-            </section>
-        </main>
+            </div>
+        </section>
     );
 }

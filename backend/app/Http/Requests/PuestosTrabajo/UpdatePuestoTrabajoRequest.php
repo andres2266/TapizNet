@@ -26,6 +26,7 @@ class UpdatePuestoTrabajoRequest extends FormRequest
             'nombre' => ['nullable', 'string', 'min:2', 'max:100'],
             'descripcion' => ['nullable', 'string', 'max:500'],
             'activo' => ['nullable', 'boolean'],
+            'fases' => ['required', 'array'],
         ];
     }
 

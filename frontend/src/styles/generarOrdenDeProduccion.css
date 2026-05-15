@@ -1,0 +1,411 @@
+/* ============================================
+   GENERAR ÓRDENES DE PRODUCCIÓN
+   ============================================ */
+
+/* Loading card */
+.loading-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafd 100%);
+    border-radius: 28px;
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 8px 28px rgba(58, 110, 165, 0.08);
+    border: 1px solid #e2ecf5;
+}
+
+.loading-card .loading-spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 1rem;
+    border: 3px solid #e2ecf5;
+    border-top-color: #5b8cbe;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.loading-card p {
+    color: #5a6e85;
+    margin-top: 1rem;
+}
+
+/* Empty card */
+.empty-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafd 100%);
+    border-radius: 28px;
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 8px 28px rgba(58, 110, 165, 0.08);
+    border: 1px solid #e2ecf5;
+}
+
+.empty-card svg {
+    stroke: #94a3b8;
+    margin-bottom: 1rem;
+}
+
+.empty-card h3 {
+    font-size: 1.25rem;
+    color: #1e3a5f;
+    margin-bottom: 0.5rem;
+}
+
+.empty-card p {
+    color: #5a6e85;
+    margin-bottom: 1.5rem;
+}
+
+/* Info banner */
+.info-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #eff6ff;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    color: #1d4ed8;
+    font-size: 0.875rem;
+}
+
+.info-banner svg {
+    stroke: #1d4ed8;
+    flex-shrink: 0;
+}
+
+/* Tabla de modelos */
+.modelos-table-container {
+    background: white;
+    border-radius: 20px;
+    overflow-x: auto;
+    border: 1px solid #e2ecf5;
+}
+
+.modelos-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.modelos-table thead {
+    background: linear-gradient(135deg, #f8fafd, #f0f5fa);
+}
+
+.modelos-table th {
+    text-align: left;
+    padding: 1rem 1rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #2c5a7a;
+    border-bottom: 2px solid #e2ecf5;
+}
+
+.modelos-table td {
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #edf2f7;
+    color: #334155;
+    vertical-align: middle;
+}
+
+.modelos-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.modelos-table tbody tr:hover {
+    background: #fafdff;
+}
+
+/* Nombre del modelo */
+.modelo-name-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modelo-name-content svg {
+    stroke: #5b8cbe;
+    flex-shrink: 0;
+}
+
+.modelo-name-content strong {
+    color: #1e3a5f;
+    font-weight: 600;
+}
+
+/* Descripción */
+.modelo-description {
+    max-width: 300px;
+    color: #5a6e85;
+    font-size: 0.8rem;
+}
+
+/* Badge de fases */
+.badge-fases {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: #eef2f6;
+    color: #3a6ea5;
+    padding: 0.25rem 0.75rem;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Chips de información */
+.info-chip-small {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    background: #f8fafd;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #475569;
+    border: 1px solid #e2ecf5;
+}
+
+.info-chip-small.highlight {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+}
+
+/* Botón generar orden */
+.btn-generar-orden {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-generar-orden:hover {
+    background: linear-gradient(135deg, #4a7aac, #2e5a8a);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(58, 110, 165, 0.3);
+}
+
+/* Animación */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modelos-table th,
+    .modelos-table td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .modelo-description {
+        max-width: 150px;
+    }
+
+    .btn-generar-orden {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .modelos-table-container {
+        overflow-x: auto;
+    }
+
+    .modelos-table {
+        min-width: 600px;
+    }
+    /* ============================================
+   MODELOS CON PROCESO TABLE
+   ============================================ */
+
+/* Contenedor de la tabla */
+.modelos-table-container {
+    background: white;
+    border-radius: 20px;
+    overflow-x: auto;
+    border: 1px solid #e2ecf5;
+    box-shadow: 0 4px 16px rgba(58, 110, 165, 0.06);
+}
+
+/* Tabla */
+.modelos-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.modelos-table thead {
+    background: linear-gradient(135deg, #f8fafd, #f0f5fa);
+}
+
+.modelos-table th {
+    text-align: left;
+    padding: 1rem 1rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #2c5a7a;
+    border-bottom: 2px solid #e2ecf5;
+}
+
+.modelos-table td {
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #edf2f7;
+    color: #334155;
+    vertical-align: middle;
+}
+
+.modelos-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.modelos-table tbody tr:hover {
+    background: #fafdff;
+}
+
+.modelos-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Nombre del modelo */
+.modelo-name-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modelo-name-content svg {
+    stroke: #5b8cbe;
+    flex-shrink: 0;
+}
+
+.modelo-name-content strong {
+    color: #1e3a5f;
+    font-weight: 600;
+}
+
+/* Badge de proceso configurado */
+.badge-proceso {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: #d1fae5;
+    color: #065f46;
+    padding: 0.375rem 0.875rem;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.badge-proceso svg {
+    stroke: #065f46;
+}
+
+/* Badge de fases */
+.badge-fases {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: #eef2f6;
+    color: #3a6ea5;
+    padding: 0.375rem 0.875rem;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.badge-fases svg {
+    stroke: #3a6ea5;
+}
+
+/* Botón generar orden */
+.modelo-actions {
+    white-space: nowrap;
+}
+
+.btn-generar-orden {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-generar-orden:hover {
+    background: linear-gradient(135deg, #4a7aac, #2e5a8a);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(58, 110, 165, 0.3);
+}
+
+.btn-generar-orden:active {
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modelos-table th,
+    .modelos-table td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .badge-proceso,
+    .badge-fases {
+        padding: 0.25rem 0.625rem;
+        font-size: 0.65rem;
+    }
+
+    .btn-generar-orden {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.7rem;
+    }
+
+    .btn-generar-orden svg {
+        width: 12px !important;
+        height: 12px !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .modelos-table-container {
+        overflow-x: auto;
+    }
+
+    .modelos-table {
+        min-width: 500px;
+    }
+
+    /* Wrapper para la tabla y el botón */
+.modelos-table-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.modelos-table-wrapper .page-actions {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    justify-content: flex-start;
+}
+}
+}

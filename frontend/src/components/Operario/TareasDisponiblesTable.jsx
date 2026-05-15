@@ -1,12 +1,13 @@
-export function TareasDisponiblesTable({
-    tareas,
-    assigning,
-    onAutoAsignar,
-}) {
-    if (!tareas || tareas.length === 0) {
+// src/components/Operario/TareasDisponiblesTable.jsx
+import React from "react";
+import Icons from "../../utils/icons";
+
+export function TareasDisponiblesTable({ tareas, assigning, onAutoAsignar, onVerProceso }) {
+    if (tareas.length === 0) {
         return (
-            <div className="form-alert">
-                No tienes tareas disponibles para tu puesto de trabajo.
+            <div className="empty-state" style={{ textAlign: 'center', padding: '3rem' }}>
+                <Icons.Info size={48} />
+                <p>No hay tareas disponibles en este momento.</p>
             </div>
         );
     }
@@ -16,58 +17,63 @@ export function TareasDisponiblesTable({
             <table className="data-table">
                 <thead>
                     <tr>
+                        <th>Tarea</th>
                         <th>Orden</th>
                         <th>Unidad</th>
-                        <th>Tarea</th>
                         <th>Puesto</th>
                         <th>Prioridad</th>
-                        <th>Precio destajo</th>
+                        <th>Precio</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     {tareas.map((tarea) => (
                         <tr key={tarea.id}>
-                            <td>
-                                {tarea.orden_produccion?.codigo || "Sin orden"}
+                            <td className="tarea-nombre">
+                                <strong>{tarea.nombre_tarea}</strong>
                             </td>
-
+                            <td>
+                                <span className="badge-muted">
+                                    <Icons.Box size={10} />
+                                    {tarea.orden_produccion?.codigo || "Sin orden"}
+                                </span>
+                            </td>
                             <td>
                                 {tarea.unidad_fabricacion?.numero_unidad
                                     ? `Unidad ${tarea.unidad_fabricacion.numero_unidad}`
                                     : "Sin unidad"}
                             </td>
-
                             <td>
-                                <strong>{tarea.nombre_tarea}</strong>
-                                {tarea.descripcion && (
-                                    <p>{tarea.descripcion}</p>
-                                )}
+                                <span className="badge-muted">
+                                    <Icons.Role size={10} />
+                                    {tarea.puesto_trabajo?.nombre || "Sin puesto"}
+                                </span>
                             </td>
-
                             <td>
-                                {tarea.puesto_trabajo?.nombre || "Sin puesto"}
+                                <span className={`badge-muted priority-${tarea.orden_produccion?.prioridad || 'normal'}`}>
+                                    {tarea.orden_produccion?.prioridad || "Normal"}
+                                </span>
                             </td>
-
-                            <td>
-                                {tarea.orden_produccion?.prioridad || "Normal"}
+                            <td className="precio-cell">
+                                <Icons.Money size={12} />
+                                {Number(tarea.ganancia_destajo || 0).toFixed(2)} €
                             </td>
-
-                            <td>
-                                {tarea.ganancia_destajo
-                                    ? `${tarea.ganancia_destajo} €`
-                                    : "0 €"}
-                            </td>
-
-                            <td>
+                            <td className="table-actions">
                                 <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                    disabled={assigning}
-                                    onClick={() => onAutoAsignar(tarea.id)}
+                                    className="btn btn-secondary"
+                                    onClick={() => onVerProceso(tarea.id)}
+                                    title="Ver proceso de fabricación"
                                 >
-                                    {assigning ? "Asignando..." : "Asignarme"}
+                                    <Icons.Info size={12} />
+                                    Ver proceso
+                                </button>
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => onAutoAsignar(tarea.id)}
+                                    disabled={assigning === tarea.id}
+                                >
+                                    <Icons.UserSingle size={12} />
+                                    {assigning === tarea.id ? "Asignando..." : "Autoasignar"}
                                 </button>
                             </td>
                         </tr>

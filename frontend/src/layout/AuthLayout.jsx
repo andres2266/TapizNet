@@ -3,6 +3,7 @@ import { Outlet, Route } from 'react-router-dom'
 import AppRouter from '../routes/AppRouter'
 import '../index.css'
 import "../styles/auth.css";
+import "../styles/landingPage.css";
 
 export default function AuthLayout() {
   return (

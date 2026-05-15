@@ -1,6 +1,7 @@
+// src/pages/admins/produccion/TareasProduccionPage.jsx
 import { Link, useNavigate } from "react-router-dom";
+import Icons from "../../../utils/icons";
 import { useTareasProduccionView } from "../../../hooks/tareasProduccion/useTareasProduccionView";
-
 
 export function TareasProduccionPage() {
     const navigate = useNavigate();
@@ -24,18 +25,31 @@ export function TareasProduccionPage() {
     };
 
     return (
-        <main className="page">
+        <div className="page">
             <div className="page-header">
                 <div>
                     <h1>Tareas de producción</h1>
                     <p>Gestiona las tareas generadas desde las órdenes de producción.</p>
                 </div>
+                <div className="page-header-date">
+                    <Icons.Calendar size={14} />
+                    {new Date().toLocaleDateString('es-ES', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    })}
+                </div>
             </div>
 
-            <section className="card">
-                <div className="form-grid">
+            {/* Filtros */}
+            <div className="card" style={{ marginBottom: '1.5rem' }}>
+                <div className="filters">
                     <div className="form-group">
-                        <label>Buscar</label>
+                        <label>
+                            <Icons.Search size={12} />
+                            Buscar
+                        </label>
                         <input
                             type="text"
                             value={search}
@@ -49,9 +63,12 @@ export function TareasProduccionPage() {
                             }
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Puesto de trabajo</label>
 
+                    <div className="form-group">
+                        <label>
+                            <Icons.Role size={12} />
+                            Puesto de trabajo
+                        </label>
                         <select
                             value={puestoTrabajoId}
                             onChange={(e) =>
@@ -63,7 +80,6 @@ export function TareasProduccionPage() {
                             }
                         >
                             <option value="">Todos los puestos</option>
-
                             {puestosTrabajo.map((puesto) => (
                                 <option key={puesto.id} value={puesto.id}>
                                     {puesto.nombre}
@@ -73,7 +89,10 @@ export function TareasProduccionPage() {
                     </div>
 
                     <div className="form-group">
-                        <label>Sin asignar</label>
+                        <label>
+                            <Icons.UserSingle size={12} />
+                            Sin asignar
+                        </label>
                         <select
                             value={soloSinAsignar}
                             onChange={(e) =>
@@ -84,29 +103,38 @@ export function TareasProduccionPage() {
                                 })
                             }
                         >
-                            <option value="">Todas</option>
+                            <option value="">Todas las tareas</option>
                             <option value="1">Solo sin asignar</option>
                         </select>
                     </div>
                 </div>
-            </section>
+            </div>
 
             {error && (
                 <div className="form-alert form-alert-error">
-                    {error}
+                    <Icons.Alert size={18} />
+                    <span>{error}</span>
                 </div>
             )}
 
-            {loading && <p>Cargando tareas de producción...</p>}
+            {loading && (
+                <div className="loading-message">
+                    <Icons.Info size={24} />
+                    <p>Cargando tareas de producción...</p>
+                </div>
+            )}
 
             {!loading && !error && tareas.length === 0 && (
-                <section className="card">
-                    <p>No hay tareas de producción con los filtros seleccionados.</p>
-                </section>
+                <div className="card">
+                    <div className="empty-state">
+                        <Icons.Info size={48} />
+                        <p>No hay tareas de producción con los filtros seleccionados.</p>
+                    </div>
+                </div>
             )}
 
             {!loading && !error && tareas.length > 0 && (
-                <section className="card">
+                <div className="card">
                     <div className="table-wrapper">
                         <table className="data-table">
                             <thead>
@@ -121,37 +149,44 @@ export function TareasProduccionPage() {
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                                 {tareas.map((tarea) => (
                                     <tr key={tarea.id}>
-                                        <td>{tarea.orden_produccion?.codigo || "Sin orden"}</td>
-
+                                        <td>
+                                            <strong>{tarea.orden_produccion?.codigo || "Sin orden"}</strong>
+                                        </td>
                                         <td>
                                             {tarea.unidad_fabricacion?.numero_unidad
                                                 ? `Unidad ${tarea.unidad_fabricacion.numero_unidad}`
                                                 : "Sin unidad"}
                                         </td>
-
                                         <td>
                                             <strong>{tarea.nombre_tarea}</strong>
                                         </td>
-
-                                        <td>{tarea.puesto_trabajo?.nombre || "Sin puesto"}</td>
-
                                         <td>
-                                            <span className={`status-badge status-${tarea.estado}`}>
-                                                {tarea.estado}
+                                            {tarea.puesto_trabajo?.nombre || "Sin puesto"}
+                                        </td>
+                                        <td>
+                                            <span className={tarea.estado === "pendiente" ? "status status-warning" : 
+                                                           tarea.estado === "en_progreso" ? "status status-info" :
+                                                           tarea.estado === "completada" ? "status status-success" : 
+                                                           "status status-danger"}>
+                                                <span className="status-dot"></span>
+                                                {tarea.estado === "pendiente" && "Pendiente"}
+                                                {tarea.estado === "en_progreso" && "En progreso"}
+                                                {tarea.estado === "completada" && "Completada"}
+                                                {tarea.estado === "cancelada" && "Cancelada"}
                                             </span>
                                         </td>
-
-                                        <td>{tarea.orden_produccion?.prioridad || "Sin prioridad"}</td>
-                                                {console.log(tarea + 'sca')}
                                         <td>
+                                            <span className={`badge-muted priority-${tarea.orden_produccion?.prioridad || 'normal'}`}>
+                                                {tarea.orden_produccion?.prioridad || "Normal"}
+                                            </span>
+                                        </td>
+                                        <td className="precio-cell">
                                             {Number(tarea.ganancia_destajo || 0).toFixed(2)} €
                                         </td>
-
-                                        <td>
+                                        <td className="table-actions">
                                             {tarea.estado === "pendiente" ? (
                                                 <button
                                                     type="button"
@@ -161,7 +196,7 @@ export function TareasProduccionPage() {
                                                     Asignar
                                                 </button>
                                             ) : (
-                                                <span className="table-muted">No disponible</span>
+                                                <span className="badge-muted">No disponible</span>
                                             )}
                                         </td>
                                     </tr>
@@ -170,7 +205,7 @@ export function TareasProduccionPage() {
                         </table>
                     </div>
 
-                    <div className="page-actions">
+                    <div className="pagination">
                         <button
                             type="button"
                             className="btn btn-secondary"
@@ -182,10 +217,11 @@ export function TareasProduccionPage() {
                                 })
                             }
                         >
+                            <Icons.ArrowRight size={12} style={{ transform: 'rotate(180deg)' }} />
                             Anterior
                         </button>
 
-                        <span>
+                        <span className="page-info">
                             Página {page} de {lastPage}
                         </span>
 
@@ -201,13 +237,16 @@ export function TareasProduccionPage() {
                             }
                         >
                             Siguiente
+                            <Icons.ArrowRight size={12} />
                         </button>
-                        <Link to={'/produccion/home'} className="btn btn-secondary">
+
+                        <Link className="btn btn-secondary" to="/produccion/home">
+                            <Icons.Close size={12} />
                             Volver
                         </Link>
                     </div>
-                </section>
+                </div>
             )}
-        </main>
+        </div>
     );
 }

@@ -206,7 +206,7 @@ export const ViewEmpleadoDetailPage = () => {
 
                     <button
                         className="btn btn-secondary"
-                        onClick={() => navigate("/empleado/view")}
+                        onClick={() => navigate(-1)}
                     >
                         <Icons.ArrowRight size={12} style={{ transform: 'rotate(180deg)' }} />
                         Volver

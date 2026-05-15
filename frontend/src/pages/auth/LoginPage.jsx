@@ -1,24 +1,56 @@
-import React from 'react'
-import { useLoginForm } from '../../hooks/auth/useLoginForm.js';
-import { Link } from 'react-router-dom';
-
+// src/pages/auth/LoginPage.jsx
+import React from "react";
+import { useLoginForm } from "../../hooks/auth/useLoginForm.js";
+import { Link } from "react-router-dom";
+import Icons from "../../utils/icons.jsx";
+import logoDeTagma from '../../assets/logoDeTagma.png';
 
 export default function LoginPage() {
-  const { register, handleSubmit, errors,isSubmitting, loginTrabajador } = useLoginForm();
-  return (
- <section className="auth-page">
-            <div className="auth-card auth-card-small">
+    const {
+        register,
+        handleSubmit,
+        errors,
+        isSubmitting,
+        generalError,
+        successMessage,
+        loginTrabajador,
+    } = useLoginForm();
+
+    return (
+        <section className="auth-page">
+            <div className="auth-card">
                 <div className="auth-header">
-                    <h1>Iniciar sesión</h1>
-                    <p>Entra a tu panel de TapizNet.</p>
+                    <div className="auth-logo">
+                        <img src={logoDeTagma} alt="Tagma Logo" className="logo-image" />
+                    </div>
+                    <h1>Tagma</h1>
+                    <p>Inicia sesión en tu panel de gestión</p>
                 </div>
 
                 <form className="auth-form" onSubmit={handleSubmit(loginTrabajador)}>
+                    {generalError && (
+                        <div className="form-alert form-alert-error">
+                            <Icons.Alert size={16} />
+                            <span>{generalError}</span>
+                        </div>
+                    )}
+
+                    {successMessage && (
+                        <div className="form-alert form-alert-success">
+                            <Icons.Check size={16} />
+                            <span>{successMessage}</span>
+                        </div>
+                    )}
+
                     <div className="form-group">
-                        <label>Nombre de usuario o email</label>
+                        <label>
+                            <Icons.UserSingle size={14} />
+                            Nombre de usuario o email
+                        </label>
                         <input
                             type="text"
                             placeholder="Ej: admin o admin@email.com"
+                            className={errors.usuario ? "input-error" : ""}
                             {...register("usuario", {
                                 required: "El usuario es obligatorio.",
                                 minLength: {
@@ -35,14 +67,23 @@ export default function LoginPage() {
                                 },
                             })}
                         />
-                        {errors.usuario && <p className="form-error">{errors.usuario.message}</p>}
+                        {errors.usuario && (
+                            <p className="form-error">
+                                <Icons.Alert size={10} />
+                                {errors.usuario.message}
+                            </p>
+                        )}
                     </div>
 
                     <div className="form-group">
-                        <label>Contraseña</label>
+                        <label>
+                            <Icons.Lock size={14} />
+                            Contraseña
+                        </label>
                         <input
                             type="password"
                             placeholder="Tu contraseña"
+                            className={errors.password ? "input-error" : ""}
                             {...register("password", {
                                 required: "La contraseña es obligatoria.",
                                 minLength: {
@@ -51,18 +92,37 @@ export default function LoginPage() {
                                 },
                             })}
                         />
-                        {errors.password && <p className="form-error">{errors.password.message}</p>}
+                        {errors.password && (
+                            <p className="form-error">
+                                <Icons.Alert size={10} />
+                                {errors.password.message}
+                            </p>
+                        )}
                     </div>
 
-                    <button className="btn-auth btn-primary" type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? "Ingresando..." : "Login"}
+                    <button
+                        className="btn-auth"
+                        type="submit"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? (
+                            <>
+                                <Icons.Refresh size={14} />
+                                Ingresando...
+                            </>
+                        ) : (
+                            <>
+                                <Icons.ArrowRight size={14} />
+                                Iniciar sesión
+                            </>
+                        )}
                     </button>
                 </form>
 
                 <p className="auth-footer-text">
-                    ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
+                    ¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link>
                 </p>
             </div>
         </section>
-  )
+    );
 }

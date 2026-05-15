@@ -13,7 +13,7 @@ class TareasEstadisticasController extends Controller
     {
         $usuario = $request->user();
 
-        if (!in_array($usuario->rol, ['administrador'])) {
+        if (!in_array($usuario->rol, ['administrador','gestor'])) {
             return response()->json([
                 'message' => 'No tienes permisos para ver estas estadísticas.',
             ], 403);

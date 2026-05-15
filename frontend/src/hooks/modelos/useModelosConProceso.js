@@ -13,6 +13,7 @@ export function useModelosConProceso() {
 
             const response = await Modelos.view({
                 estado_proceso: "configurado",
+                activo:'activo'
             });
 
             setModelos(response.data?.data || response.data || []);

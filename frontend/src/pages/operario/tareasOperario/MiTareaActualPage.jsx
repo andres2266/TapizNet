@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useTareaActualProduccion } from "../../hooks/tareasProduccion/useTareaActualProduccion";
+import { useTareaActualProduccion } from "../../../hooks/tareasProduccion/useTareaActualProduccion";
 
 export default function MiTareaActualPage() {
     const navigate = useNavigate();

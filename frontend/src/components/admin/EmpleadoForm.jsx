@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Icons from '../../utils/icons.jsx'
 
 export default function EmpleadoForm({
@@ -17,7 +17,7 @@ export default function EmpleadoForm({
     isUpdatingEstado = false,
 }) {
     const isEdit = mode === "edit";
-
+    const navigate = useNavigate();
     return (
         <form className="card employee-form" onSubmit={handleSubmit(onSubmit)}>
             {generalError && (
@@ -35,7 +35,7 @@ export default function EmpleadoForm({
             )}
 
             <div className="form-grid">
-                
+
                 <div className="form-group">
                     <label><Icons.UserSingle /> Usuario</label>
                     <input
@@ -262,10 +262,14 @@ export default function EmpleadoForm({
                     Cancelar
                 </button>
 
-                <Link className="btn btn-secondary" to="/homeAdmin">
-                    <Icons.ArrowRight />
+                <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => navigate(-1)}
+                >
+                    <Icons.ArrowRight size={12} style={{ transform: 'rotate(180deg)' }} />
                     Volver
-                </Link>
+                </button>
             </div>
         </form>
     );

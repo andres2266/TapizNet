@@ -20,7 +20,7 @@ export function PagosEmpleadosPage() {
     };
 
     const handleVerDetalle = (empleadoId) => {
-        navigate(`/admin/pagos-empleados/${empleadoId}`);
+        navigate(`/empleados/${empleadoId}/detail`);
     };
 
     return (
@@ -42,13 +42,7 @@ export function PagosEmpleadosPage() {
                     Recargar
                 </button>
 
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={handleCancel}
-                >
-                    Volver
-                </button>
+
             </div>
 
             {loading && (
@@ -143,7 +137,13 @@ export function PagosEmpleadosPage() {
                             ))}
                         </tbody>
                     </table>
-
+                    <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={handleCancel}
+                    >
+                        Volver
+                    </button>
                 </div>
             )}
         </div>

@@ -36,4 +36,9 @@ export const TareasProduccion = {
 
         return response.data;
     },
+
+     verInstrucciones: async (id) => {
+        const response = await api.get(`/tareas-produccion/${id}/instrucciones`);
+        return response.data;
+    },
 };

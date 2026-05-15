@@ -14,7 +14,7 @@ export function usePagosEstadisticas() {
             setError(null);
 
             const response =
-                await Estadisticas.getPuestosStats();
+                await Estadisticas.obtenerEstadisticasPagos();
 
             setEstadisticas(response.data);
         } catch (error) {

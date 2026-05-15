@@ -1,0 +1,40 @@
+/* Botón ver proceso */
+.btn-ver-proceso {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #eef2f6;
+    color: #3a6ea5;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-ver-proceso:hover {
+    background: #e2ecf5;
+    transform: translateY(-1px);
+}
+
+/* Acciones en tabla */
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .table-actions {
+        flex-direction: column;
+    }
+    
+    .btn-ver-proceso,
+    .btn-asignar {
+        width: 100%;
+        justify-content: center;
+    }
+    
+}

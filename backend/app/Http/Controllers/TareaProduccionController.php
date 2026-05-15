@@ -204,7 +204,7 @@ class TareaProduccionController extends Controller
             ]);
         } catch (\Throwable $e) {
             return response()->json([
-                'message' => 'No se pudo autoasignar la tarea.',
+                'message' => 'No se pudo autoasignar una tare ya tienes una asignada.',
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -397,5 +397,35 @@ public function show(Request $request, TareaProduccion $tarea)
     ]);
 }
 
+public function verInstrucciones(Request $request, TareaProduccion $tarea)
+{
+    $usuario = $request->user();
+
+    if (!in_array($usuario->rol, ['administrador', 'gestor', 'operario'])) {
+        return response()->json([
+            'message' => 'No tienes permisos para ver esta tarea.'
+        ], 403);
+    }
+
+    if ($tarea->empresa_id !== $usuario->empresa_id) {
+        return response()->json([
+            'message' => 'Tarea no encontrada.'
+        ], 404);
+    }
+
+
+
+    $tarea->load([
+        'puestoTrabajo',
+        'empleado',
+        'procesoFabricacion.parametrosFabricacion',
+        'unidadFabricacion.ordenProduccion.modelo',
+    ]);
+
+    return response()->json([
+        'message' => 'Instrucciones de la tarea encontradas correctamente.',
+        'tarea' => $tarea,
+    ], 200);
+}
 
 }

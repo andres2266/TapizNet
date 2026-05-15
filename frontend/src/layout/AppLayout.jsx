@@ -11,26 +11,40 @@ import '../styles/homeOrdenes.css'
 import '../styles/homePuestosTrabajo.css'
 import '../styles/viewPuestoTrabajo.css'
 import '../styles/puestosTrabajoDetails.css'
+import '../styles/procesoFabricacionForm.css'
+import '../styles/procesosFabricacionDetail.css'
+import '../styles/updateModelo.css'
+import '../styles/modelosDetails.css'
+import '../styles/generarOrdenDeProduccion.css'
+import '../styles/modeloHome.css'
+import '../styles/modeloHome.css'
+import '../styles/pagosHome.css'
+import '../styles/operarioHome.css'
+import '../styles/tareaInstrucciones.css'
+import '../styles/operarioDetails.css'
+import logoDeTagma from '../assets/logoDeTagma.png'
+
 
 export default function AppLayout() {
+  
+    const handleLogoClick = () => {
+        navigate('/')
+    }
   return (
-    <div className="app-layout">
-     
-      <header className="main-header">
-        <div className="header-container">
-          <div className="header-brand">
-            <span>TG</span>
-            <h2>Tagma</h2>
-          </div>
-          <div className="header-actions">
-          </div>
-        </div>
-      </header>
+        <div className="app-layout">
+            <header className="main-header">
+                <div className="header-container">
+                    <div className="header-brand" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
+                        <img src={logoDeTagma} alt="Tagma Logo" className="header-logo" />
+                        <h2>Tagma</h2>
+                    </div>
+                </div>
+            </header>
 
-      {/* Contenido principal */}
-      <main className="main-content">
-        <Outlet />
-      </main>
-    </div>
+            {/* Contenido principal */}
+            <main className="main-content">
+                <Outlet />
+            </main>
+        </div>
   );
 }

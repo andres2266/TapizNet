@@ -1,0 +1,345 @@
+/* ============================================
+   PROCESO DE FABRICACIÓN - DETALLE
+   ============================================ */
+
+/* Tarjeta principal */
+.proceso-detail-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafd 100%);
+    border-radius: 28px;
+    padding: 2rem;
+    box-shadow: 0 8px 28px rgba(58, 110, 165, 0.08);
+    border: 1px solid #e2ecf5;
+}
+
+/* Header del modelo */
+.modelo-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #e2ecf5;
+}
+
+.modelo-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #eef2f6, #e2ecf5);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5b8cbe;
+}
+
+.modelo-info h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e3a5f;
+    margin-bottom: 0.5rem;
+}
+
+.modelo-info p {
+    color: #5a6e85;
+    font-size: 0.875rem;
+}
+
+/* Timeline de fases */
+.proceso-timeline {
+    position: relative;
+    margin: 2rem 0;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 24px;
+    top: 40px;
+    bottom: 40px;
+    width: 2px;
+    background: linear-gradient(180deg, #5b8cbe, #e2ecf5);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.timeline-marker {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.marker-number {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(58, 110, 165, 0.3);
+    z-index: 1;
+    position: relative;
+}
+
+.marker-line {
+    width: 2px;
+    flex: 1;
+    background: #e2ecf5;
+    margin: 8px 0;
+}
+
+.timeline-item:last-child .marker-line {
+    display: none;
+}
+
+/* Tarjeta de cada fase */
+.fase-detail-card {
+    flex: 1;
+    background: white;
+    border-radius: 20px;
+    padding: 1.25rem;
+    border: 1px solid #e2ecf5;
+    transition: all 0.3s ease;
+}
+
+.fase-detail-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+
+.fase-header-detail {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.fase-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #eef2f6;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #5b8cbe;
+    margin-bottom: 0.75rem;
+}
+
+.fase-header-detail h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e3a5f;
+    margin: 0;
+}
+
+/* Grid de información de fase */
+.fase-info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.info-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.875rem;
+    background: #f8fafd;
+    border-radius: 40px;
+    font-size: 0.75rem;
+    color: #475569;
+    border: 1px solid #e2ecf5;
+}
+
+.info-chip.highlight {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+}
+
+.info-chip svg {
+    stroke: currentColor;
+}
+
+/* Descripción de fase */
+.fase-description {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background: #f8fafd;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: #475569;
+}
+
+.fase-description svg {
+    flex-shrink: 0;
+    stroke: #5b8cbe;
+}
+
+/* Parámetros */
+.parametros-list {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eef2f6;
+}
+
+.parametros-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #5b8cbe;
+    margin-bottom: 0.75rem;
+}
+
+.parametros-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.parametro-item {
+    background: #f8fafd;
+    padding: 0.375rem 0.875rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.parametro-item strong {
+    color: #1e3a5f;
+    font-weight: 600;
+}
+
+.parametro-item span {
+    color: #5a6e85;
+}
+
+/* Resumen del proceso */
+.proceso-resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #e2ecf5;
+}
+
+.resumen-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8fafd;
+    border-radius: 16px;
+}
+
+.resumen-item svg {
+    stroke: #5b8cbe;
+}
+
+.resumen-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.resumen-item span {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #5a6e85;
+}
+
+.resumen-item strong {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e3a5f;
+}
+
+.resumen-item.highlight {
+    background: linear-gradient(135deg, #eff6ff, #e0f2fe);
+}
+
+.resumen-item.highlight strong {
+    color: #1d4ed8;
+}
+
+/* Estado vacío */
+.empty-proceso {
+    text-align: center;
+    padding: 3rem;
+}
+
+.empty-proceso svg {
+    stroke: #94a3b8;
+    margin-bottom: 1rem;
+}
+
+.empty-proceso h3 {
+    color: #1e3a5f;
+    margin-bottom: 0.5rem;
+}
+
+.empty-proceso p {
+    color: #5a6e85;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .proceso-detail-card {
+        padding: 1.25rem;
+    }
+
+    .modelo-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .timeline-item {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .timeline-line {
+        left: 24px;
+    }
+
+    .timeline-marker {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .marker-line {
+        display: none;
+    }
+
+    .fase-info-grid {
+        flex-direction: column;
+    }
+
+    .info-chip {
+        width: fit-content;
+    }
+
+    .proceso-resumen {
+        grid-template-columns: 1fr;
+    }
+}
