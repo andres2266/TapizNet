@@ -41,8 +41,8 @@
 }
 
 .auth-logo .logo-image {
-    width: 100%;
-    height: 100%;
+    width: 180%;
+    height: 180%;
     object-fit: contain;
 }
 

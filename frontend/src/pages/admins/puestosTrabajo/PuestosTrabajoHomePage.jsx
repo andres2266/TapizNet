@@ -132,7 +132,7 @@ const HomePage = () => {
                             <Icons.Dashboard size={22} />
                         </div>
                         <div className="quick-action-info">
-                            <h4>Dashboard</h4>
+                            <h4>Inicio</h4>
                             <p>Panel principal</p>
                         </div>
                     </div>

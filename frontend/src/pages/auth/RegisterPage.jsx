@@ -1,79 +1,166 @@
-import React from 'react'
-import { useRegisterForm} from '../../hooks/auth/useRegisterForm'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { useRegisterForm } from "../../hooks/auth/useRegisterForm";
+import { Link } from "react-router-dom";
 
 export default function RegisterPage() {
-    const {register,handleSubmit,watch,errors,isSubmitting,registerPropietaio} = useRegisterForm()
-  return (
- <section className="auth-page">
+    const {
+        register,
+        handleSubmit,
+        watch,
+        errors,
+        isSubmitting,
+        generalError,
+        registerAdministrador,
+    } = useRegisterForm();
+
+    return (
+        <section className="auth-page">
             <div className="auth-card auth-card-large">
                 <div className="auth-header">
                     <h1>Crear cuenta</h1>
                     <p>Registra tu taller y crea el usuario administrador.</p>
                 </div>
 
-                <form className="auth-form auth-form-grid" onSubmit={handleSubmit(registerPropietaio)}>
+                <form
+                    className="auth-form auth-form-grid"
+                    onSubmit={handleSubmit(registerAdministrador)}
+                >
+                    {generalError && (
+                        <div className="form-alert form-alert-error form-full">
+                            {generalError}
+                        </div>
+                    )}
+
                     <div className="form-group">
                         <label>Nombre de la empresa</label>
-                        <input type="text" {...register("empresa_nombre", { required: "El nombre de la empresa es obligatorio." })} />
-                        {errors.empresa_nombre && <p className="form-error">{errors.empresa_nombre.message}</p>}
+                        <input
+                            type="text"
+                            className={errors.empresa_nombre ? "input-error" : ""}
+                            {...register("empresa_nombre", {
+                                required: "El nombre de la empresa es obligatorio.",
+                            })}
+                        />
+                        {errors.empresa_nombre && (
+                            <p className="form-error">{errors.empresa_nombre.message}</p>
+                        )}
                     </div>
 
                     <div className="form-group">
                         <label>Correo de la empresa</label>
-                        <input type="email" {...register("empresa_email", { required: "El correo de la empresa es obligatorio." })} />
-                        {errors.empresa_email && <p className="form-error">{errors.empresa_email.message}</p>}
+                        <input
+                            type="email"
+                            className={errors.empresa_email ? "input-error" : ""}
+                            {...register("empresa_email", {
+                                required: "El correo de la empresa es obligatorio.",
+                            })}
+                        />
+                        {errors.empresa_email && (
+                            <p className="form-error">{errors.empresa_email.message}</p>
+                        )}
                     </div>
 
                     <div className="form-group">
                         <label>Teléfono de la empresa</label>
-                        <input type="text" {...register("empresa_telefono")} />
-                        {errors.empresa_telefono && <p className="form-error">{errors.empresa_telefono.message}</p>}
+                        <input
+                            type="text"
+                            className={errors.empresa_telefono ? "input-error" : ""}
+                            {...register("empresa_telefono")}
+                        />
+                        {errors.empresa_telefono && (
+                            <p className="form-error">{errors.empresa_telefono.message}</p>
+                        )}
                     </div>
 
                     <div className="form-group">
                         <label>Dirección de la empresa</label>
-                        <input type="text" {...register("empresa_direccion")} />
-                        {errors.empresa_direccion && <p className="form-error">{errors.empresa_direccion.message}</p>}
+                        <input
+                            type="text"
+                            className={errors.empresa_direccion ? "input-error" : ""}
+                            {...register("empresa_direccion")}
+                        />
+                        {errors.empresa_direccion && (
+                            <p className="form-error">{errors.empresa_direccion.message}</p>
+                        )}
                     </div>
 
                     <div className="form-group">
-                        <label>Nombre del propietario</label>
-                        <input type="text" {...register("nombre", { required: "El nombre es obligatorio." })} />
-                        {errors.nombre && <p className="form-error">{errors.nombre.message}</p>}
+                        <label>Nombre del administrador</label>
+                        <input
+                            type="text"
+                            className={errors.nombre ? "input-error" : ""}
+                            {...register("nombre", {
+                                required: "El nombre es obligatorio.",
+                            })}
+                        />
+                        {errors.nombre && (
+                            <p className="form-error">{errors.nombre.message}</p>
+                        )}
                     </div>
 
                     <div className="form-group">
                         <label>Apellido</label>
-                        <input type="text" {...register("apellido")} />
-                        {errors.apellido && <p className="form-error">{errors.apellido.message}</p>}
+                        <input
+                            type="text"
+                            className={errors.apellido ? "input-error" : ""}
+                            {...register("apellido")}
+                        />
+                        {errors.apellido && (
+                            <p className="form-error">{errors.apellido.message}</p>
+                        )}
                     </div>
 
                     <div className="form-group">
                         <label>Nombre de usuario</label>
-                        <input type="text" {...register("usuario", { required: "El usuario es obligatorio." })} />
-                        {errors.usuario && <p className="form-error">{errors.usuario.message}</p>}
+                        <input
+                            type="text"
+                            className={errors.usuario ? "input-error" : ""}
+                            {...register("usuario", {
+                                required: "El usuario es obligatorio.",
+                            })}
+                        />
+                        {errors.usuario && (
+                            <p className="form-error">{errors.usuario.message}</p>
+                        )}
                     </div>
 
                     <div className="form-group">
                         <label>Contraseña</label>
-                        <input type="password" {...register("password", { required: "La contraseña es obligatoria." })} />
-                        {errors.password && <p className="form-error">{errors.password.message}</p>}
+                        <input
+                            type="password"
+                            className={errors.password ? "input-error" : ""}
+                            {...register("password", {
+                                required: "La contraseña es obligatoria.",
+                            })}
+                        />
+                        {errors.password && (
+                            <p className="form-error">{errors.password.message}</p>
+                        )}
                     </div>
 
                     <div className="form-group">
                         <label>Confirmar contraseña</label>
                         <input
                             type="password"
+                            className={errors.password_confirmation ? "input-error" : ""}
                             {...register("password_confirmation", {
                                 required: "Debes confirmar la contraseña.",
-                                validate: value => value === watch("password") || "Las contraseñas no coinciden.",
+                                validate: (value) =>
+                                    value === watch("password") ||
+                                    "Las contraseñas no coinciden.",
                             })}
                         />
-                        {errors.password_confirmation && <p className="form-error">{errors.password_confirmation.message}</p>}
+                        {errors.password_confirmation && (
+                            <p className="form-error">
+                                {errors.password_confirmation.message}
+                            </p>
+                        )}
                     </div>
-                    
-                    <button className="btn-auth btn-primary auth-submit" type="submit" disabled={isSubmitting}>
+
+                    <button
+                        className="btn-auth btn-primary auth-submit"
+                        type="submit"
+                        disabled={isSubmitting}
+                    >
                         {isSubmitting ? "Registrando..." : "Crear cuenta"}
                     </button>
                 </form>
@@ -83,5 +170,5 @@ export default function RegisterPage() {
                 </p>
             </div>
         </section>
-  )
+    );
 }

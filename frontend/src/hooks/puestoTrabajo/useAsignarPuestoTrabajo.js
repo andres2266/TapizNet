@@ -101,6 +101,7 @@ export function useAsignarPuestoTrabajo() {
                     search: state.search,
                     sin_puesto: 1,
                     page: state.page,
+                    rol:'operario'
                     
                 }),
                 PuestosTrabajo.view({

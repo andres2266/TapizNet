@@ -1,9 +1,9 @@
 
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import Icons from '../../utils/icons.jsx'
 export function OrdenProduccionForm({register,handleSubmit,errors,isSubmitting,onSubmit,onCancel,successMessage,generalError,ordenCreada,}) 
 {
-    console.log(errors)
+    const navigate = useNavigate();
     return (
         <form className="employee-form" onSubmit={handleSubmit(onSubmit)}>
             {generalError && (
@@ -109,9 +109,14 @@ export function OrdenProduccionForm({register,handleSubmit,errors,isSubmitting,o
             </div>
 
             <div className="page-actions">
-               <Link className="btn btn-secondary" to="/modelos/home">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => navigate(-1)}
+                >
+                    <Icons.ArrowRight size={12} style={{ transform: 'rotate(180deg)' }} />
                     Volver
-                </Link>
+                </button>
 
                 <button
                     type="submit"

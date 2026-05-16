@@ -23,7 +23,6 @@ export default function LoginPage() {
                     <div className="auth-logo">
                         <img src={logoDeTagma} alt="Tagma Logo" className="logo-image" />
                     </div>
-                    <h1>Tagma</h1>
                     <p>Inicia sesión en tu panel de gestión</p>
                 </div>
 

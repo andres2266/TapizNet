@@ -240,7 +240,7 @@
 
 .btn-primary {
     background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
-    color: white;
+    color: #1e3a5f;
     box-shadow: 0 2px 8px rgba(58, 110, 165, 0.25);
 }
 
@@ -364,7 +364,7 @@
     width: 14px;
     height: 14px;
     margin-left: 8px;
-    border: 2px solid white;
+    border: 2px solid  #1e3a5f;;
     border-top-color: transparent;
     border-radius: 50%;
     animation: spin 0.6s linear infinite;
@@ -612,7 +612,7 @@
 
 /* Botón primario - icono blanco */
 .btn-primary svg {
-    stroke: white;
+    stroke:  #1e3a5f;;
 }
 
 /* Botón secundario - icono azul */
@@ -747,7 +747,7 @@
 
 .page-actions .btn-primary {
     background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
-    color: white;
+    color:  #5b8cbe;;
     border: none;
 }
 

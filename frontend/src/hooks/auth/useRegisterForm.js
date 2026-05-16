@@ -28,6 +28,7 @@ export function useRegisterForm() {
 
             navigate("/home");
         } catch (error) {
+            console.log(error)
             if (error.response?.status === 422) {
                 const validationErrors = error.response.data.errors;
 

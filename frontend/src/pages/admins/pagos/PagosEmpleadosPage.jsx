@@ -137,15 +137,17 @@ export function PagosEmpleadosPage() {
                             ))}
                         </tbody>
                     </table>
-                    <button
+                  
+                </div>
+                
+            )}
+              <button
                         type="button"
                         className="btn btn-secondary"
                         onClick={handleCancel}
                     >
                         Volver
                     </button>
-                </div>
-            )}
         </div>
     );
 }

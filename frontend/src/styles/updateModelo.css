@@ -174,7 +174,7 @@
 
 .form-actions-buttons .btn-primary {
     background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
-    color: white;
+    color:  #5b8cbe;;
     box-shadow: 0 2px 8px rgba(58, 110, 165, 0.25);
 }
 

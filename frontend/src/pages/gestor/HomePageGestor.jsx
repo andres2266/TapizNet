@@ -76,7 +76,12 @@ export default function HomePageGestor() {
             <div className="logout-section">
                 <LogoutButton />
             </div>
+              <div className="operario-actions-footer">
+                            {user?.tipo_contrato === 'horas' &&<JornadaLaboralButton/> }
+                </div>
         </div>
+
+        
 
 
     );

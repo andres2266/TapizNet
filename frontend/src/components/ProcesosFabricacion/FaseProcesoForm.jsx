@@ -251,7 +251,7 @@ export default function FaseProcesoForm({
                 <div className="parametros-header">
                     <div className="parametros-title">
                         <Icons.Box size={18} />
-                        <h4>Parámetros / instrucciones</h4>
+                        <h4>Especificaciones / Dimenciones</h4>
                     </div>
 
                     <button
@@ -289,7 +289,7 @@ export default function FaseProcesoForm({
                                 <div className="form-group">
                                     <label>
                                         <Icons.Info size={12} />
-                                        Nombre del parámetro
+                                        Nombre de la Especificacion
                                     </label>
                                     <input
                                         type="text"
@@ -327,7 +327,7 @@ export default function FaseProcesoForm({
                                 <div className="form-group">
                                     <label>
                                         <Icons.Check size={12} />
-                                        Valor
+                                       Valor de la dimecion
                                     </label>
                                     <input
                                         type="text"

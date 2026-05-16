@@ -42,7 +42,7 @@ export default function HomePage() {
                 <div className="home-grid">
                     <Link to="/empleado/form" className="home-card">
                         <div className="home-card-icon"><Icons.Users size={24} /></div>
-                        <h3 className="home-card-title">Dar de alta trabajador</h3>
+                        <h3 className="home-card-title">Registrar trabajador trabajador</h3>
                         <p className="home-card-description">Registra nuevos empleados en el sistema con sus datos y rol</p>
                         <div className="home-card-arrow">
                             <span>Acceder</span>

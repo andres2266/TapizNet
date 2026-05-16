@@ -63,7 +63,7 @@ body {
 
 /* Ajusta el tamaño del logo aquí */
 .header-logo {
-    width: 8560px;
+    width: 80px;
     height: 80px;
     object-fit: contain;
     border-radius: 12px;
@@ -75,7 +75,7 @@ body {
     background: linear-gradient(135deg, #2c5a7a, #1e3a5f);
     background-clip: text;
     -webkit-background-clip: text;
-    color: transparent;
+    color: #1e3a5f;
     letter-spacing: -0.3px;
     margin: 0;
 }
@@ -179,7 +179,7 @@ body {
 
 .btn-primary {
     background: linear-gradient(135deg, #5b8cbe, #3a6ea5);
-    color: white;
+    color: #1e3a5f;
     box-shadow: 0 4px 12px rgba(58, 110, 165, 0.25);
 }
 
@@ -190,13 +190,13 @@ body {
 }
 
 .btn-secondary {
-    background: white;
-    color: #3a6ea5;
+    background: #eef2f6;
+    color: #1e3a5f;
     border: 1.5px solid #dce5f0;
 }
 
 .btn-secondary:hover:not(:disabled) {
-    background: #f0f5fa;
+    background: #e2ecf5;
     border-color: #5b8cbe;
     transform: translateY(-2px);
 }

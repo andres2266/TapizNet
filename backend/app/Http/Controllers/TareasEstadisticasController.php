@@ -13,7 +13,7 @@ class TareasEstadisticasController extends Controller
     {
         $usuario = $request->user();
 
-        if (!in_array($usuario->rol, ['administrador','gestor'])) {
+        if (!in_array($usuario->rol, ['administrador', 'gestor'])) {
             return response()->json([
                 'message' => 'No tienes permisos para ver estas estadísticas.',
             ], 403);
@@ -26,17 +26,17 @@ class TareasEstadisticasController extends Controller
             ->count();
 
         $tareasEnProgreso = TareaProduccion::where('empresa_id', $empresaId)
-            ->where('estado', 'en_progreso')
+            ->where('estado', 'pendiente')
             ->count();
 
         $empleadosTrabajandoAhora = TareaProduccion::where('empresa_id', $empresaId)
-            ->where('estado', 'en_progreso')
+            ->whereIn('estado', ['asignada', 'en_progreso'])
             ->whereNotNull('trabajador_id')
-            ->distinct('trabajador_id')
+            ->distinct()
             ->count('trabajador_id');
 
         $ordenesEnProduccion = OrdenProduccion::where('empresa_id', $empresaId)
-            ->where('estado', 'en_produccion')
+            ->where('estado', 'pendiente')
             ->count();
 
         $unidadesPendientes = UnidadFabricacion::whereIn(

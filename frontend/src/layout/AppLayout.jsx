@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import '../styles/app.css';
 import '../styles/forms.css';
 import "../styles/table.css";
@@ -26,9 +26,9 @@ import logoDeTagma from '../assets/logoDeTagma.png'
 
 
 export default function AppLayout() {
-  
+    const navigate = useNavigate();
     const handleLogoClick = () => {
-        navigate('/')
+        navigate('/homeAdmin')
     }
   return (
         <div className="app-layout">
