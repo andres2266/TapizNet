@@ -1,11 +1,13 @@
-import axios from "axios";
-import { authStore } from "../stores/auth";
+import axios from 'axios';
+import { authStore } from '../stores/auth';
 
 export const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: 'https://tapiznet-backend.onrender.com/api',
     headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
     },
+
+    
 });
 
 api.interceptors.request.use(
@@ -21,4 +23,3 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-export default api;
