@@ -3,7 +3,6 @@ import { authStore } from "../stores/auth";
 
 export const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
-
     headers: {
         "Content-Type": "application/json",
     },
@@ -21,3 +20,5 @@ api.interceptors.request.use(
     },
     (error) => Promise.reject(error)
 );
+
+export default api;
