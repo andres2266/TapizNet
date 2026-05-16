@@ -1,16 +1,15 @@
-import axios from 'axios';
-import { authStore } from '../stores/auth';
+import axios from "axios";
+import { authStore } from "../stores/auth";
 
-export const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api',
+const AxiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+
     headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
     },
-
-    
 });
 
-api.interceptors.request.use(
+AxiosInstance.interceptors.request.use(
     (config) => {
         const token = authStore.getState().token;
 
@@ -23,3 +22,4 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
+export default AxiosInstance;
