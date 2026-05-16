@@ -95,3 +95,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
       
 
 });
+
+
+Route::post('/reset-db/{token}', function ($token) {
+
+    if ($token !== env('DEPLOY_SECRET_TOKEN')) {
+        abort(403);
+    }
+
+    Artisan::call('migrate:fresh', [
+        '--force' => true,
+    ]);
+
+    return response()->json([
+        'message' => 'Base de datos reiniciada correctamente',
+        'output' => Artisan::output(),
+    ]);
+});
